@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/home_screen/background">
+        <file>Bitmaps/home_screen/0569-bg_1_home.png</file>
+    </qresource>
+</RCC>
