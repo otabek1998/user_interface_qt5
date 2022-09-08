@@ -38,12 +38,15 @@
       <x>0</x>
       <y>390</y>
       <width>801</width>
-      <height>91</height>
+      <height>112</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <property name="topMargin">
       <number>6</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
      </property>
      <property name="spacing">
       <number>0</number>
@@ -56,11 +59,21 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="styleSheet">
-        <string notr="true">background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_tab_favourite.png);</string>
+        <string notr="true">QPushButton{
+background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_tab_favourite.png);
+padding-top: 30px;
+color: rgb(150, 150, 150);
+}
+QPushButton::pressed {
+background-color: rgba(255, 255, 255, 50);
+}</string>
        </property>
        <property name="text">
-        <string/>
+        <string>Favourites</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -78,14 +91,24 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="autoFillBackground">
         <bool>false</bool>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_tab_media.png);</string>
+        <string notr="true">QPushButton{
+background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_tab_media.png);
+padding-top: 30px;
+color: rgb(150, 150, 150);
+}
+QPushButton::pressed {
+background-color: rgba(255, 255, 255, 50);
+}</string>
        </property>
        <property name="text">
-        <string/>
+        <string>Media</string>
        </property>
        <property name="checkable">
         <bool>false</bool>
@@ -103,11 +126,21 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="styleSheet">
-        <string notr="true">background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_tab_connect.png);</string>
+        <string notr="true">QPushButton{
+background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_tab_connect.png);
+padding-top: 30px;
+color: rgb(150, 150, 150);
+}
+QPushButton::pressed {
+background-color: rgba(255, 255, 255, 50);
+}</string>
        </property>
        <property name="text">
-        <string/>
+        <string>Connect</string>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -122,11 +155,21 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="styleSheet">
-        <string notr="true">background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_tab_settings.png);</string>
+        <string notr="true">QPushButton{
+background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_tab_settings.png);
+padding-top: 30px;
+color: rgb(150, 150, 150);
+}
+QPushButton::pressed {
+background-color: rgba(255, 255, 255, 50);
+}</string>
        </property>
        <property name="text">
-        <string/>
+        <string>Settings</string>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -134,6 +177,33 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="pushButton_5">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>800</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_line_statusbar.png);
+}
+QPushButton::pressed {
+background-color: rgba(255, 255, 255, 0);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
   </widget>
  </widget>

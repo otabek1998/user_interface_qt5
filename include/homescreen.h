@@ -14,6 +14,7 @@ class HomeScreen : public QMainWindow
 public:
     explicit HomeScreen(QWidget *parent = 0);
     ~HomeScreen();
+    void Initialize();
 
 private:
     Ui::HomeScreen *ui;

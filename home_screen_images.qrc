@@ -5,6 +5,6 @@
         <file>Bitmaps/home_screen/ic_tab_favourite.png</file>
         <file>Bitmaps/home_screen/ic_tab_media.png</file>
         <file>Bitmaps/home_screen/ic_tab_settings.png</file>
-        <file>Bitmaps/home_screen/bg_panel_mid.png</file>
+        <file>Bitmaps/home_screen/bg_line_statusbar.png</file>
     </qresource>
 </RCC>
