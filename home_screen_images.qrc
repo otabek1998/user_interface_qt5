@@ -6,5 +6,29 @@
         <file>Bitmaps/home_screen/ic_tab_media.png</file>
         <file>Bitmaps/home_screen/ic_tab_settings.png</file>
         <file>Bitmaps/home_screen/bg_line_statusbar.png</file>
+        <file>Bitmaps/home_screen/Semicolon.png</file>
+        <file>Bitmaps/home_screen/clock_font24/hours/0.png</file>
+        <file>Bitmaps/home_screen/clock_font24/hours/1.png</file>
+        <file>Bitmaps/home_screen/clock_font24/hours/2.png</file>
+        <file>Bitmaps/home_screen/clock_font24/hours/3.png</file>
+        <file>Bitmaps/home_screen/clock_font24/hours/4.png</file>
+        <file>Bitmaps/home_screen/clock_font24/hours/5.png</file>
+        <file>Bitmaps/home_screen/clock_font24/hours/6.png</file>
+        <file>Bitmaps/home_screen/clock_font24/hours/7.png</file>
+        <file>Bitmaps/home_screen/clock_font24/hours/8.png</file>
+        <file>Bitmaps/home_screen/clock_font24/hours/9.png</file>
+        <file>Bitmaps/home_screen/clock_font24/minutes/0.png</file>
+        <file>Bitmaps/home_screen/clock_font24/minutes/1.png</file>
+        <file>Bitmaps/home_screen/clock_font24/minutes/2.png</file>
+        <file>Bitmaps/home_screen/clock_font24/minutes/3.png</file>
+        <file>Bitmaps/home_screen/clock_font24/minutes/4.png</file>
+        <file>Bitmaps/home_screen/clock_font24/minutes/5.png</file>
+        <file>Bitmaps/home_screen/clock_font24/minutes/6.png</file>
+        <file>Bitmaps/home_screen/clock_font24/minutes/7.png</file>
+        <file>Bitmaps/home_screen/clock_font24/minutes/8.png</file>
+        <file>Bitmaps/home_screen/clock_font24/minutes/9.png</file>
+        <file>Bitmaps/home_screen/Pointer.png</file>
+        <file>Bitmaps/home_screen/bg_panel_mid.png</file>
+        <file>Bitmaps/home_screen/bg_panel_small.png</file>
     </qresource>
 </RCC>

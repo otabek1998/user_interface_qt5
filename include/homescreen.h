@@ -14,10 +14,12 @@ class HomeScreen : public QMainWindow
 public:
     explicit HomeScreen(QWidget *parent = 0);
     ~HomeScreen();
-    void Initialize();
-
 private:
     Ui::HomeScreen *ui;
+    void Initialize();
+    QString digitImageStringify(int);
+private slots:
+    void showTime();
 };
 
 #endif // HOMESCREEN_H
