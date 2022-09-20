@@ -14,8 +14,10 @@ TEMPLATE = app
 
 SOURCES += src/main.cpp\
         src/homescreen.cpp \
+    src/analogclock.cpp
 
-HEADERS  += include/homescreen.h
+HEADERS  += include/homescreen.h \
+    include/analogclock.h
 
 FORMS    += \
     ui/homescreen.ui

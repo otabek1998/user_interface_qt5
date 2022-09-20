@@ -289,7 +289,7 @@ background-color: rgba(255, 255, 255, 50);
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QWidget" name="left_frame" native="true">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -298,42 +298,24 @@ background-color: rgba(255, 255, 255, 50);
       <height>294</height>
      </rect>
     </property>
-    <property name="focusPolicy">
-     <enum>Qt::NoFocus</enum>
-    </property>
     <property name="styleSheet">
      <string notr="true">background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_small.png);</string>
     </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QWidget" name="right_frame" native="true">
     <property name="geometry">
      <rect>
-      <x>584</x>
+      <x>586</x>
       <y>80</y>
       <width>194</width>
       <height>294</height>
      </rect>
     </property>
-    <property name="focusPolicy">
-     <enum>Qt::NoFocus</enum>
-    </property>
     <property name="styleSheet">
      <string notr="true">background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_small.png);</string>
     </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QWidget" name="mainFrame" native="true">
     <property name="geometry">
      <rect>
       <x>185</x>
@@ -342,18 +324,45 @@ background-color: rgba(255, 255, 255, 50);
       <height>330</height>
      </rect>
     </property>
-    <property name="focusPolicy">
-     <enum>Qt::NoFocus</enum>
-    </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_mid.png);</string>
+     <string notr="true">
+
+
+	</string>
     </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
+    <widget class="QWidget" name="mainFrameUpperLeftWidget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>170</width>
+       <height>170</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-image: url(:/home_screen/background/Bitmaps/home_screen/ClockPanel/ic_clock_big_base.png);</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="mainFrameUppeRightWidget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>10</y>
+       <width>235</width>
+       <height>170</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QWidget" name="mainFrameLowerWidget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>180</y>
+       <width>405</width>
+       <height>140</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

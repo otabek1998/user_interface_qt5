@@ -30,5 +30,11 @@
         <file>Bitmaps/home_screen/Pointer.png</file>
         <file>Bitmaps/home_screen/bg_panel_mid.png</file>
         <file>Bitmaps/home_screen/bg_panel_small.png</file>
+        <file>Bitmaps/home_screen/ClockPanel/ic_clock_base.png</file>
+        <file>Bitmaps/home_screen/ClockPanel/ic_clock_big_base.png</file>
+        <file>Bitmaps/home_screen/ClockPanel/ic_clock_big_hour.png</file>
+        <file>Bitmaps/home_screen/ClockPanel/ic_clock_big_minute.png</file>
+        <file>Bitmaps/home_screen/ClockPanel/ic_clock_hour.png</file>
+        <file>Bitmaps/home_screen/ClockPanel/ic_clock_minute.png</file>
     </qresource>
 </RCC>

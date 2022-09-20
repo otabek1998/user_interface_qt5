@@ -2,6 +2,7 @@
 #define HOMESCREEN_H
 
 #include <QMainWindow>
+#include <QLabel>
 
 namespace Ui {
 class HomeScreen;
@@ -14,12 +15,19 @@ class HomeScreen : public QMainWindow
 public:
     explicit HomeScreen(QWidget *parent = 0);
     ~HomeScreen();
+    void displayClockAsMainFrame();
+    QString digitImageStringify(int);
 private:
     Ui::HomeScreen *ui;
     void Initialize();
-    QString digitImageStringify(int);
+    void displayDayOfWeek();
+
+    QLabel *digitTime;
+    QLabel *dayOfWeek;
+    QLabel *Date;
 private slots:
-    void showTime();
+    void showTimeOnStatusBar();
+    void showTimeOnMainFrame();
 };
 
 #endif // HOMESCREEN_H
