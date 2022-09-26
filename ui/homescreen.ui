@@ -299,7 +299,7 @@ background-color: rgba(255, 255, 255, 50);
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_small.png);</string>
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QWidget" name="right_frame" native="true">
@@ -312,13 +312,13 @@ background-color: rgba(255, 255, 255, 50);
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_small.png);</string>
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QWidget" name="mainFrame" native="true">
     <property name="geometry">
      <rect>
-      <x>185</x>
+      <x>186</x>
       <y>60</y>
       <width>430</width>
       <height>330</height>
@@ -340,7 +340,7 @@ background-color: rgba(255, 255, 255, 50);
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-image: url(:/home_screen/background/Bitmaps/home_screen/ClockPanel/ic_clock_big_base.png);</string>
+      <string notr="true"/>
      </property>
     </widget>
     <widget class="QWidget" name="mainFrameUppeRightWidget" native="true">
