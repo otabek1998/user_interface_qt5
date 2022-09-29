@@ -14,20 +14,10 @@ TEMPLATE = app
 
 SOURCES += src/main.cpp\
         src/homescreen.cpp \
-    src/analogclock.cpp \
-    src/hw-input/InputHandler.cpp \
-    src/hw-input/SignalConverter.cpp \
-    src/hw-input/SignalTraits.cpp \
-    src/hw-input/SoftkeyConverter.cpp
+    src/analogclock.cpp
 
 HEADERS  += include/homescreen.h \
-    include/analogclock.h \
-    src/hw-input/SignalConverter.hpp \
-    src/hw-input/SignalTraits.hpp \
-    src/hw-input/SoftkeyConverter.hpp \
-    include/HWInput/Common.hpp \
-    include/HWInput/ICallback.hpp \
-    include/HWInput/InputHandler.hpp
+    include/analogclock.h
 
 FORMS    += \
     ui/homescreen.ui
