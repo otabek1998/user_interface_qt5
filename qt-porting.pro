@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += src/main.cpp\
         src/homescreen.cpp \
-    src/analogclock.cpp
+    src/analogclock.cpp \
+    src/touchinput.cpp
 
 HEADERS  += include/homescreen.h \
-    include/analogclock.h
+    include/analogclock.h \
+    include/touchinput.h
 
 FORMS    += \
     ui/homescreen.ui
