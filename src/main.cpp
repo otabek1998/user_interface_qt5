@@ -7,7 +7,6 @@
 
 static void touchButtonDown(int x, int y, void* arg)
 {
-    printf("Got up event on (%d,%d)\n", x, y);
     const std::map<int, std::string> buttonCoordinates =
     {
         {1300, "HOME_BTN"},
@@ -42,8 +41,8 @@ int main(int argc, char *argv[])
          nullptr
      };
     Offboard::TouchInput ti(keyClbks);
-    a.exec();
     ti.runinThread();
+    a.exec();
 
     return 0;
 }
