@@ -11,11 +11,14 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = qt-porting
 TEMPLATE = app
 
-
 SOURCES += src/main.cpp\
         src/homescreen.cpp \
     src/analogclock.cpp \
     src/touchinput.cpp
+
+INVITE_LIBS += libinput
+CONFIG += link_pkgconfig
+PKGCONFIG += $$INVITE_LIBS
 
 HEADERS  += include/homescreen.h \
     include/analogclock.h \
