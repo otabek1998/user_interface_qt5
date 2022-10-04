@@ -23,6 +23,9 @@ static void touchButtonDown(int x, int y, void* arg)
         return;
     }
     std::cout << search->second << std::endl;
+    if (search->second == "POWER_BTN"){
+        ScreenSaver s = new ScreenSaver;
+    }
 
 
 }
@@ -31,7 +34,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     HomeScreen w;
-    w.show();
+    w.showFullScreen();
 
     static Offboard::EventsCallbacks keyClbks = {
          &touchButtonDown,

@@ -36,5 +36,6 @@
         <file>Bitmaps/home_screen/ClockPanel/ic_clock_big_minute.png</file>
         <file>Bitmaps/home_screen/ClockPanel/ic_clock_hour.png</file>
         <file>Bitmaps/home_screen/ClockPanel/ic_clock_minute.png</file>
+        <file>Bitmaps/screensavers/0571-bg_1_home.png</file>
     </qresource>
 </RCC>

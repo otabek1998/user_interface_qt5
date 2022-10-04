@@ -14,7 +14,8 @@ TEMPLATE = app
 SOURCES += src/main.cpp\
         src/homescreen.cpp \
     src/analogclock.cpp \
-    src/touchinput.cpp
+    src/touchinput.cpp \
+    src/screensaver.cpp
 
 INVITE_LIBS += libinput
 CONFIG += link_pkgconfig
@@ -22,10 +23,12 @@ PKGCONFIG += $$INVITE_LIBS
 
 HEADERS  += include/homescreen.h \
     include/analogclock.h \
-    include/touchinput.h
+    include/touchinput.h \
+    include/screensaver.h
 
 FORMS    += \
-    ui/homescreen.ui
+    ui/homescreen.ui \
+    ui/screensaver.ui
 
 DISTFILES += \
     Bitmaps/home_screen/0569-bg_1_home.png

@@ -22,6 +22,7 @@ HomeScreen::~HomeScreen()
 void HomeScreen::Initialize()
 {
     QTimer *timer = new QTimer(this);
+    this->setObjectName("MainMenu");
     QString widgetStyle = "QWidget#MainMenu {"
                           "background-image: url(:/home_screen/background/Bitmaps/home_screen/0569-bg_1_home.png);"
                           "background-repeat: no-repeat}";
