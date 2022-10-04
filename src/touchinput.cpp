@@ -12,6 +12,18 @@ namespace  Offboard {
 
 static const char* touchDevice = "/dev/input/touchscreen0";
 
+const std::map<int, std::string> buttonCoordinates =
+{
+    {1300, "HOME_BTN"},
+    {1400, "VOICEDIAL_BTN"},
+    {1500, "POWER_BTN"},
+    {2000, "VOLUP_BTN"},
+    {2100, "MUTE_BTN"},
+    {2200, "VOLDOWN_BTN"},
+    {2300, "MUSIC_BTN"},
+    {2400, "PHONE_BTN"}
+};
+
 static const libinput_interface LibInputFileInterface = {
     /* .open_restricted =  */[](const char* path, int flags, void* /* user_data */) -> int
     {
@@ -86,6 +98,12 @@ void TouchInput::processTouchDownEvent(libinput_event *ev)
     double y = libinput_event_touch_get_y(t);
     int xi = static_cast<int>(x);
     int yi = static_cast<int>(y);
+    auto search = buttonCoordinates.find(x);
+    if(search == buttonCoordinates.end()){
+        return;
+    }
+    std::cout << search->second << std::endl;
+
     if (clbks.down)
         clbks.down(xi, yi, clbks.arg);
 }

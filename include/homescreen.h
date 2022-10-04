@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <include/screensaver.h>
 
 namespace Ui {
 class HomeScreen;
@@ -17,6 +18,7 @@ public:
     ~HomeScreen();
     void displayClockAsMainFrame();
     QString digitImageStringify(int);
+    ScreenSaver *screenSaver;
 private:
     Ui::HomeScreen *ui;
     void Initialize();
@@ -32,6 +34,7 @@ private:
 private slots:
     void showTimeOnStatusBar();
     void showTimeOnMainFrame();
+    void onPowerButtonPress();
 };
 
 #endif // HOMESCREEN_H

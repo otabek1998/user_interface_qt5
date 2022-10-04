@@ -14,14 +14,16 @@ struct EventsCallbacks {
     void *arg;
 };
 
-class TouchInput {
+class TouchInput : public QObject{
+    Q_OBJECT
 public:
     TouchInput(const struct EventsCallbacks& cbs);
     ~TouchInput();
     void Process();
     void runinThread();
-private:
+signals:
     void processTouchDownEvent(libinput_event* ev);
+private:
     void processTouchUpEvent(libinput_event* ev);
     void internalProcess();
     static void* thread_func(void *arg);
@@ -30,6 +32,7 @@ private:
     struct EventsCallbacks clbks;
     pthread_t threadid;
     bool m_running;
+    const std::map<int, std::string> buttonCoordinates;
 };
 }
 

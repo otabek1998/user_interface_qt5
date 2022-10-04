@@ -4,6 +4,7 @@
 #include <qpainter.h>
 #include "include/homescreen.h"
 #include "include/analogclock.h"
+#include "include/touchinput.h"
 #include "ui_homescreen.h"
 
 HomeScreen::HomeScreen(QWidget *parent) :
@@ -22,7 +23,6 @@ HomeScreen::~HomeScreen()
 void HomeScreen::Initialize()
 {
     QTimer *timer = new QTimer(this);
-    this->setObjectName("MainMenu");
     QString widgetStyle = "QWidget#MainMenu {"
                           "background-image: url(:/home_screen/background/Bitmaps/home_screen/0569-bg_1_home.png);"
                           "background-repeat: no-repeat}";
@@ -51,8 +51,19 @@ void HomeScreen::Initialize()
     ui->left_frame->setStyleSheet(sideWidgetStyle);
 
     this->setStyleSheet(widgetStyle);
+
+    static Offboard::EventsCallbacks keyClbks = {
+         nullptr,
+         nullptr,
+         nullptr,
+         nullptr,
+         nullptr
+     };
+    Offboard::TouchInput *ti = new Offboard::TouchInput(keyClbks);
+    ti->runinThread();
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnStatusBar()));
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnMainFrame()));
+    connect(ti, &Offboard::TouchInput::processTouchDownEvent, this, &HomeScreen::onPowerButtonPress);
     timer->start(1000);
 }
 
@@ -254,4 +265,11 @@ QString HomeScreen::digitImageStringify(int label)
     int_to_str = QString::number(label);
     stylesheetformat = "border-image: url(:/home_screen/background/Bitmaps/home_screen/clock_font24/hours/" + int_to_str + ".png) 0 0 0 0 stretch stretch;";
     return stylesheetformat;
+}
+
+void HomeScreen::onPowerButtonPress()
+{
+    hide();
+    screenSaver = new ScreenSaver(this);
+    screenSaver->showFullScreen();
 }
