@@ -1,5 +1,6 @@
 #include "include/homescreen.h"
 #include "include/touchinput.h"
+#include "include/screensaver.h"
 #include <stdio.h>
 #include <iostream>
 #include <string>
@@ -24,7 +25,7 @@ static void touchButtonDown(int x, int y, void* arg)
     }
     std::cout << search->second << std::endl;
     if (search->second == "POWER_BTN"){
-        ScreenSaver s = new ScreenSaver;
+        ScreenSaver *s = new ScreenSaver;
     }
 
 
