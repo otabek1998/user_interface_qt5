@@ -45,8 +45,8 @@ int main(int argc, char *argv[])
          nullptr
      };
     Offboard::TouchInput ti(keyClbks);
-    ti.runinThread();
     a.exec();
+    ti.runinThread();
 
     return 0;
 }
