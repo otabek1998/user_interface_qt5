@@ -20,12 +20,14 @@ public:
     QString digitImageStringify(int);
     ScreenSaver *screenSaver;
 private:
+    bool visible;
     Ui::HomeScreen *ui;
     void Initialize();
     void displayDayOfWeek();
     void displayDate(int side); // side 0 is main frame, 1 for right, 2 for left
     void clockAsMainFrame(QTimer *timer);
     void clockAsSideFrame(QTimer *timer, int side); // side 1 for right, 2 for left
+    void onPowerButtonPress();
 
     QWidget *analogTime;
     QLabel *digitTime;
@@ -34,7 +36,6 @@ private:
 private slots:
     void showTimeOnStatusBar();
     void showTimeOnMainFrame();
-    void onPowerButtonPress();
 };
 
 #endif // HOMESCREEN_H

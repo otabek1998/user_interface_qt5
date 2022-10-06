@@ -5,7 +5,9 @@
 #include <errno.h>
 #include "include/touchinput.h"
 #include <stdio.h>
-#include <poll.h>
+#include <poll.h>\
+//#include <iostream> // for debugging touchinput
+#include <iostream>
 
 namespace  Offboard {
 
@@ -105,7 +107,10 @@ void TouchInput::processTouchDownEvent(libinput_event *ev)
     std::cout << search->second << std::endl;
 
     if (clbks.down)
-        clbks.down(xi, yi, clbks.arg);
+        clbks.down();
+    if (search->first == 1500){
+        emitPowerButtonSignal();
+    }
 }
 
 void TouchInput::processTouchUpEvent(libinput_event *ev)
@@ -148,5 +153,10 @@ void* TouchInput::thread_func(void *arg)
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
     that->Process();
 }
+
+/*void TouchInput::emitPowerButtonSignal()
+{
+
+}*/
 
 }

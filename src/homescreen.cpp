@@ -2,6 +2,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <qpainter.h>
+#include <iostream>
 #include "include/homescreen.h"
 #include "include/analogclock.h"
 #include "include/touchinput.h"
@@ -13,12 +14,14 @@ HomeScreen::HomeScreen(QWidget *parent) :
 {
     ui->setupUi(this);
     this->Initialize();
+    visible = true;
 }
 
 HomeScreen::~HomeScreen()
 {
     delete ui;
 }
+
 
 void HomeScreen::Initialize()
 {
@@ -63,7 +66,7 @@ void HomeScreen::Initialize()
     ti->runinThread();
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnStatusBar()));
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnMainFrame()));
-    connect(ti, &Offboard::TouchInput::processTouchDownEvent, this, &HomeScreen::onPowerButtonPress);
+    connect(ti, &Offboard::TouchInput::emitPowerButtonSignal, this, &HomeScreen::onPowerButtonPress);
     timer->start(1000);
 }
 
@@ -269,7 +272,17 @@ QString HomeScreen::digitImageStringify(int label)
 
 void HomeScreen::onPowerButtonPress()
 {
-    hide();
-    screenSaver = new ScreenSaver(this);
-    screenSaver->showFullScreen();
+    if (visible == true){
+        visible = false;
+        hide();
+        screenSaver = new ScreenSaver(this);
+        screenSaver->showFullScreen();
+    }
+    else{
+        visible = true;
+        show();
+        screenSaver->hide();
+        delete screenSaver;
+    }
+
 }

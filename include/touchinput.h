@@ -1,20 +1,21 @@
 #ifndef TOUCHINPUT_H
 #define TOUCHINPUT_H
 
-#include <libinput.h>
 #include <pthread.h>
+#include <libinput.h>
+#include <QObject>
 
 namespace Offboard {
 
 struct EventsCallbacks {
-    void (*down)(int x, int y, void* arg);
+    void (*down)();
     void (*up) (void* arg);
     void (*double_down) (int x, int y, void* arg);
     void (*double_up) (int x, int y, void* arg);
     void *arg;
 };
 
-class TouchInput : public QObject{
+class TouchInput : public QObject {
     Q_OBJECT
 public:
     TouchInput(const struct EventsCallbacks& cbs);
@@ -22,9 +23,10 @@ public:
     void Process();
     void runinThread();
 signals:
-    void processTouchDownEvent(libinput_event* ev);
+    void emitPowerButtonSignal();
 private:
     void processTouchUpEvent(libinput_event* ev);
+    void processTouchDownEvent(libinput_event* ev);
     void internalProcess();
     static void* thread_func(void *arg);
     struct libinput* inputCtx;

@@ -12,7 +12,6 @@ ScreenSaver::ScreenSaver(QWidget *parent) :
                           "background-repeat: no-repeat}";
     this->setObjectName("MainFrame");
     this->setStyleSheet(widgetStyle);
-
 }
 
 ScreenSaver::~ScreenSaver()
