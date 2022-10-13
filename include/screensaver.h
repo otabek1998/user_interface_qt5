@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::ScreenSaver *ui;
+    void paintEvent(QPaintEvent *);
 };
 
 #endif // SCREENSAVER_H

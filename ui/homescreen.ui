@@ -289,7 +289,7 @@ background-color: rgba(255, 255, 255, 50);
      <string/>
     </property>
    </widget>
-   <widget class="QWidget" name="left_frame" native="true">
+   <widget class="CustomFrame" name="left_frame" native="true">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -302,7 +302,7 @@ background-color: rgba(255, 255, 255, 50);
      <string notr="true"/>
     </property>
    </widget>
-   <widget class="QWidget" name="right_frame" native="true">
+   <widget class="CustomFrame" name="right_frame" native="true">
     <property name="geometry">
      <rect>
       <x>586</x>
@@ -315,7 +315,7 @@ background-color: rgba(255, 255, 255, 50);
      <string notr="true"/>
     </property>
    </widget>
-   <widget class="QWidget" name="mainFrame" native="true">
+   <widget class="CustomFrame" name="mainFrame" native="true">
     <property name="geometry">
      <rect>
       <x>186</x>
@@ -325,10 +325,7 @@ background-color: rgba(255, 255, 255, 50);
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">
-
-
-	</string>
+     <string notr="true"/>
     </property>
     <widget class="QWidget" name="mainFrameUpperLeftWidget" native="true">
      <property name="geometry">
@@ -367,6 +364,14 @@ background-color: rgba(255, 255, 255, 50);
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>CustomFrame</class>
+   <extends>QWidget</extends>
+   <header>include/customframe.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

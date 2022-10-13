@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">background-image: url(:/home_screen/background/Bitmaps/screensavers/0571-bg_1_home.png);</string>
   </property>
  </widget>
  <resources/>

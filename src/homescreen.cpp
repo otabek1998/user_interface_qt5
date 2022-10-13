@@ -6,6 +6,7 @@
 #include "include/homescreen.h"
 #include "include/analogclock.h"
 #include "include/touchinput.h"
+#include "include/customframe.h"
 #include "ui_homescreen.h"
 
 HomeScreen::HomeScreen(QWidget *parent) :
@@ -26,10 +27,12 @@ HomeScreen::~HomeScreen()
 void HomeScreen::Initialize()
 {
     QTimer *timer = new QTimer(this);
+    screenSaver = new ScreenSaver();
+
     QString widgetStyle = "QWidget#MainMenu {"
                           "background-image: url(:/home_screen/background/Bitmaps/home_screen/0569-bg_1_home.png);"
                           "background-repeat: no-repeat}";
-    QString sideWidgetStyle = "QWidget#SideFrame {"
+    QString sideWidgetStyle = "CustomFrame#SideFrame {"
                               "background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_small.png);"
                               "background-repeat: no-repeat}";
 
@@ -44,9 +47,13 @@ void HomeScreen::Initialize()
 
     this->setObjectName("MainMenu");
     ui->mainFrame->setObjectName("MainFrame");
-    ui->mainFrame->setStyleSheet("QWidget#MainFrame {"
+    CustomFrame *frame = this->findChild<CustomFrame*>("MainFrame"); // taking object from ui
+    ui->mainFrame->setStyleSheet("CustomFrame#MainFrame {"
                                  "background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_mid.png);"
                                  "background-repeat: no-repeat;}");
+    /*frame->setStylesheet("CustomFrame#MainFrame {"
+                         "background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_mid.png);"
+                         "background-repeat: no-repeat;}");*/
     ui->right_frame->setObjectName("SideFrame");
     ui->left_frame->setObjectName("SideFrame");
 
@@ -62,11 +69,15 @@ void HomeScreen::Initialize()
          nullptr,
          nullptr
      };
-    Offboard::TouchInput *ti = new Offboard::TouchInput(keyClbks);
+
+    ti = new Offboard::TouchInput(keyClbks);
     ti->runinThread();
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnStatusBar()));
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnMainFrame()));
     connect(ti, &Offboard::TouchInput::emitPowerButtonSignal, this, &HomeScreen::onPowerButtonPress);
+
+
+    connect(frame, &CustomFrame::pressedSignal, this, &HomeScreen::onPowerButtonPress); // need to change
     timer->start(1000);
 }
 
@@ -274,9 +285,9 @@ void HomeScreen::onPowerButtonPress()
 {
     if (visible == true){
         visible = false;
+        screenSaver->show();
         hide();
-        screenSaver = new ScreenSaver(this);
-        screenSaver->showFullScreen();
+
     }
     else{
         visible = true;

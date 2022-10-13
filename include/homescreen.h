@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <QLabel>
-#include <include/screensaver.h>
+#include <QStackedWidget>
+#include "include/screensaver.h"
+#include "include/touchinput.h"
 
 namespace Ui {
 class HomeScreen;
@@ -29,6 +31,7 @@ private:
     void clockAsSideFrame(QTimer *timer, int side); // side 1 for right, 2 for left
     void onPowerButtonPress();
 
+    Offboard::TouchInput *ti;
     QWidget *analogTime;
     QLabel *digitTime;
     QLabel *dayOfWeek;

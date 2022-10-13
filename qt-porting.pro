@@ -15,7 +15,8 @@ SOURCES += src/main.cpp\
         src/homescreen.cpp \
     src/analogclock.cpp \
     src/touchinput.cpp \
-    src/screensaver.cpp
+    src/screensaver.cpp \
+    src/customframe.cpp
 
 INVITE_LIBS += libinput
 CONFIG += link_pkgconfig
@@ -24,7 +25,8 @@ PKGCONFIG += $$INVITE_LIBS
 HEADERS  += include/homescreen.h \
     include/analogclock.h \
     include/touchinput.h \
-    include/screensaver.h
+    include/screensaver.h \
+    include/customframe.h
 
 FORMS    += \
     ui/homescreen.ui \
