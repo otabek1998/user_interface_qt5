@@ -17,10 +17,12 @@ class HomeScreen : public QMainWindow
 
 public:
     explicit HomeScreen(QWidget *parent = 0);
+    explicit HomeScreen(Offboard::TouchInput *ti, QWidget *parent = 0);
     ~HomeScreen();
     void displayClockAsMainFrame();
     QString digitImageStringify(int);
     ScreenSaver *screenSaver;
+    Offboard::TouchInput *ti;
 private:
     bool visible;
     Ui::HomeScreen *ui;
@@ -31,7 +33,6 @@ private:
     void clockAsSideFrame(QTimer *timer, int side); // side 1 for right, 2 for left
     void onPowerButtonPress();
 
-    Offboard::TouchInput *ti;
     QWidget *analogTime;
     QLabel *digitTime;
     QLabel *dayOfWeek;

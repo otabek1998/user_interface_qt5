@@ -18,6 +18,17 @@ HomeScreen::HomeScreen(QWidget *parent) :
     visible = true;
 }
 
+HomeScreen::HomeScreen(Offboard::TouchInput *ti, QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::HomeScreen)
+{
+
+    this->ti = ti;
+    ui->setupUi(this);
+    this->Initialize();
+    visible = true;
+}
+
 HomeScreen::~HomeScreen()
 {
     delete ui;
@@ -70,8 +81,8 @@ void HomeScreen::Initialize()
          nullptr
      };
 
-    ti = new Offboard::TouchInput(keyClbks);
-    ti->runinThread();
+    //ti = new Offboard::TouchInput(keyClbks);
+    //ti->runinThread();
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnStatusBar()));
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnMainFrame()));
     connect(ti, &Offboard::TouchInput::emitPowerButtonSignal, this, &HomeScreen::onPowerButtonPress);

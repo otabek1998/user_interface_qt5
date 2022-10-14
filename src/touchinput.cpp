@@ -154,9 +154,4 @@ void* TouchInput::thread_func(void *arg)
     that->Process();
 }
 
-/*void TouchInput::emitPowerButtonSignal()
-{
-
-}*/
-
 }
