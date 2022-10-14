@@ -18,17 +18,6 @@ HomeScreen::HomeScreen(QWidget *parent) :
     visible = true;
 }
 
-HomeScreen::HomeScreen(Offboard::TouchInput *ti, QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::HomeScreen)
-{
-
-    this->ti = ti;
-    ui->setupUi(this);
-    this->Initialize();
-    visible = true;
-}
-
 HomeScreen::~HomeScreen()
 {
     delete ui;
@@ -39,6 +28,9 @@ void HomeScreen::Initialize()
 {
     QTimer *timer = new QTimer(this);
     screenSaver = new ScreenSaver();
+    ti = new TouchInput();
+    ti_thread = new QThread();
+    ti->moveToThread(ti_thread);
 
     QString widgetStyle = "QWidget#MainMenu {"
                           "background-image: url(:/home_screen/background/Bitmaps/home_screen/0569-bg_1_home.png);"
@@ -73,19 +65,10 @@ void HomeScreen::Initialize()
 
     this->setStyleSheet(widgetStyle);
 
-    static Offboard::EventsCallbacks keyClbks = {
-         nullptr,
-         nullptr,
-         nullptr,
-         nullptr,
-         nullptr
-     };
-
-    //ti = new Offboard::TouchInput(keyClbks);
-    //ti->runinThread();
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnStatusBar()));
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnMainFrame()));
-    connect(ti, &Offboard::TouchInput::emitPowerButtonSignal, this, &HomeScreen::onPowerButtonPress);
+    connect(ti_thread, &QThread::started, ti, &TouchInput::Process);
+    connect(ti, &TouchInput::emitPowerButtonSignal, this, &HomeScreen::onPowerButtonPress);
 
 
     connect(frame, &CustomFrame::pressedSignal, this, &HomeScreen::onPowerButtonPress); // need to change

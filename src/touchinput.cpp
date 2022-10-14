@@ -9,9 +9,6 @@
 //#include <iostream> // for debugging touchinput
 #include <iostream>
 
-namespace  Offboard {
-
-
 static const char* touchDevice = "/dev/input/touchscreen0";
 
 const std::map<int, std::string> buttonCoordinates =
@@ -39,9 +36,8 @@ static const libinput_interface LibInputFileInterface = {
     }
 };
 
-TouchInput::TouchInput(const EventsCallbacks &cbs) : threadid(0)
+TouchInput::TouchInput() : threadid(0)
 {
-    clbks = cbs;
     inputCtx = libinput_path_create_context(&LibInputFileInterface, nullptr);
     touchDev = libinput_path_add_device(inputCtx, touchDevice);
 }
@@ -90,7 +86,7 @@ void TouchInput::internalProcess()
 
 void TouchInput::runinThread()
 {
-    pthread_create(&threadid, nullptr, &Offboard::TouchInput::thread_func, this);
+    pthread_create(&threadid, nullptr, &TouchInput::thread_func, this);
 }
 
 void TouchInput::processTouchDownEvent(libinput_event *ev)
@@ -106,8 +102,6 @@ void TouchInput::processTouchDownEvent(libinput_event *ev)
     }
     std::cout << search->second << std::endl;
 
-    if (clbks.down)
-        clbks.down();
     if (search->first == 1500){
         emitPowerButtonSignal();
     }
@@ -116,8 +110,6 @@ void TouchInput::processTouchDownEvent(libinput_event *ev)
 void TouchInput::processTouchUpEvent(libinput_event *ev)
 {
     libinput_event_touch* t = libinput_event_get_touch_event(ev);
-    if (clbks.up)
-        clbks.up(clbks.arg);
 }
 
 void TouchInput::Process()
@@ -154,4 +146,3 @@ void* TouchInput::thread_func(void *arg)
     that->Process();
 }
 
-}

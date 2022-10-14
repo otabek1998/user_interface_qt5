@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QStackedWidget>
+#include <QThread>
 #include "include/screensaver.h"
 #include "include/touchinput.h"
 
@@ -17,12 +18,12 @@ class HomeScreen : public QMainWindow
 
 public:
     explicit HomeScreen(QWidget *parent = 0);
-    explicit HomeScreen(Offboard::TouchInput *ti, QWidget *parent = 0);
     ~HomeScreen();
     void displayClockAsMainFrame();
     QString digitImageStringify(int);
     ScreenSaver *screenSaver;
-    Offboard::TouchInput *ti;
+    TouchInput *ti;
+    QThread *ti_thread;
 private:
     bool visible;
     Ui::HomeScreen *ui;

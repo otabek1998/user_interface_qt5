@@ -9,17 +9,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    static Offboard::EventsCallbacks keyClbks = {
-         nullptr,
-         nullptr,
-         nullptr,
-         nullptr,
-         nullptr
-     };
-    Offboard::TouchInput *ti = new Offboard::TouchInput(keyClbks);
-    HomeScreen w(ti, 0);
-    ti->runinThread();
+    HomeScreen w;
     w.show();
+    w.ti_thread->start();
     a.exec();
 
     return 0;
