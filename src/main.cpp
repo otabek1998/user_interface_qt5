@@ -16,10 +16,11 @@ int main(int argc, char *argv[])
          nullptr,
          nullptr
      };
-    Offboard::TouchInput *ti = new Offboard::TouchInput(keyClbks);
-    HomeScreen w(ti, 0);
-    ti->runinThread();
+    Offboard::TouchInput ti(keyClbks);
+    HomeScreen w(&ti, 0);
+    //ti->runinThread();
     w.show();
+    ti.runinThread();
     a.exec();
 
     return 0;
