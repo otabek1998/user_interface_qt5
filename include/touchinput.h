@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include <libinput.h>
 #include <QObject>
+#include <map>
 
 class TouchInput : public QObject {
     Q_OBJECT
@@ -23,7 +24,6 @@ private:
     struct libinput_device* touchDev;
     pthread_t threadid;
     bool m_running;
-    const std::map<int, std::string> buttonCoordinates;
 };
 
 #endif // TOUCHINPUT_H

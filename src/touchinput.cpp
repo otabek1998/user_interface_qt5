@@ -5,8 +5,7 @@
 #include <errno.h>
 #include "include/touchinput.h"
 #include <stdio.h>
-#include <poll.h>\
-//#include <iostream> // for debugging touchinput
+#include <poll.h>
 #include <iostream>
 
 static const char* touchDevice = "/dev/input/touchscreen0";

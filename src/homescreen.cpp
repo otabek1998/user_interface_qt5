@@ -287,7 +287,6 @@ void HomeScreen::onPowerButtonPress()
         visible = true;
         show();
         screenSaver->hide();
-        delete screenSaver;
     }
 
 }
