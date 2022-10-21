@@ -2,6 +2,7 @@
 #define SCREENSAVER_H
 
 #include <QWidget>
+#include "include/analogclock.h"
 
 namespace Ui {
 class ScreenSaver;
@@ -17,6 +18,8 @@ public:
 
 private:
     Ui::ScreenSaver *ui;
+    AnalogClock *clock;
+    QWidget *analogClockWidget;
     void paintEvent(QPaintEvent *);
 };
 

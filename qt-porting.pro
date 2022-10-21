@@ -16,7 +16,9 @@ SOURCES += src/main.cpp\
     src/analogclock.cpp \
     src/touchinput.cpp \
     src/screensaver.cpp \
-    src/customframe.cpp
+    src/customframe.cpp \
+    include/framechanger.cpp \
+    src/framechanger.cpp
 
 INVITE_LIBS += libinput
 CONFIG += link_pkgconfig
@@ -26,11 +28,14 @@ HEADERS  += include/homescreen.h \
     include/analogclock.h \
     include/touchinput.h \
     include/screensaver.h \
-    include/customframe.h
+    include/customframe.h \
+    include/framechanger.h
 
 FORMS    += \
     ui/homescreen.ui \
-    ui/screensaver.ui
+    ui/screensaver.ui \
+    include/framechanger.ui \
+    ui/framechanger.ui
 
 DISTFILES += \
     Bitmaps/home_screen/0569-bg_1_home.png
