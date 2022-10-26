@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     HomeScreen w;
-    w.show();
+    w.showFullScreen();
     w.ti_thread->start();
     a.exec();
 

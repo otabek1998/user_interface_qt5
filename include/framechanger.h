@@ -2,6 +2,7 @@
 #define FRAMECHANGER_H
 
 #include <QWidget>
+#include <QPushButton>
 
 namespace Ui {
 class FrameChanger;
@@ -15,6 +16,12 @@ public:
     explicit FrameChanger(QWidget *parent = 0);
     ~FrameChanger();
     void Initialize();
+    QPushButton *resetButton;
+    QPushButton *cancelButton;
+    QPushButton *doneButton;
+    void cancelButtonPress();
+ signals:
+    void emitCancelButtonPress();
 
 private:
     Ui::FrameChanger *ui;

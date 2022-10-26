@@ -7,6 +7,7 @@
 #include <QThread>
 #include "include/screensaver.h"
 #include "include/touchinput.h"
+#include "include/framechanger.h"
 
 namespace Ui {
 class HomeScreen;
@@ -23,6 +24,7 @@ public:
     QString digitImageStringify(int);
     ScreenSaver *screenSaver;
     TouchInput *ti;
+    FrameChanger *fc;
     QThread *ti_thread;
 private:
     bool visible;
@@ -33,6 +35,8 @@ private:
     void clockAsMainFrame(QTimer *timer);
     void clockAsSideFrame(QTimer *timer, int side); // side 1 for right, 2 for left
     void onPowerButtonPress();
+    void onFrameHoldGesture();
+    void onFrameChangerCancelPress();
 
     QWidget *analogTime;
     QLabel *digitTime;

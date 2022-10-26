@@ -28,6 +28,7 @@ void HomeScreen::Initialize()
 {
     QTimer *timer = new QTimer(this);
     screenSaver = new ScreenSaver();
+    fc = new FrameChanger();
     ti = new TouchInput();
     ti_thread = new QThread();
     ti->moveToThread(ti_thread);
@@ -46,7 +47,6 @@ void HomeScreen::Initialize()
     displayDayOfWeek();
     displayDate(0);
     displayDate(1);
-
 
     this->setObjectName("MainMenu");
     ui->mainFrame->setObjectName("MainFrame");
@@ -71,7 +71,8 @@ void HomeScreen::Initialize()
     connect(ti, &TouchInput::emitPowerButtonSignal, this, &HomeScreen::onPowerButtonPress);
 
 
-    connect(frame, &CustomFrame::pressedSignal, this, &HomeScreen::onPowerButtonPress); // need to change
+    connect(frame, &CustomFrame::pressedSignal, this, &HomeScreen::onFrameHoldGesture); // need to change
+    connect(fc, &FrameChanger::emitCancelButtonPress, this, &HomeScreen::onFrameChangerCancelPress);
     timer->start(1000);
 }
 
@@ -279,14 +280,27 @@ void HomeScreen::onPowerButtonPress()
 {
     if (visible == true){
         visible = false;
-        screenSaver->show();
+        screenSaver->showFullScreen();
         hide();
 
     }
     else{
         visible = true;
-        show();
+        showFullScreen();
         screenSaver->hide();
     }
 
+}
+
+void HomeScreen::onFrameHoldGesture()
+{
+    fc->showFullScreen();
+    hide();
+}
+
+void HomeScreen::onFrameChangerCancelPress()
+{
+    qDebug("Clicked also");
+    fc->hide();
+    showFullScreen();
 }

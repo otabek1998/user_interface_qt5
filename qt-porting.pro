@@ -17,7 +17,6 @@ SOURCES += src/main.cpp\
     src/touchinput.cpp \
     src/screensaver.cpp \
     src/customframe.cpp \
-    include/framechanger.cpp \
     src/framechanger.cpp
 
 INVITE_LIBS += libinput
@@ -34,7 +33,6 @@ HEADERS  += include/homescreen.h \
 FORMS    += \
     ui/homescreen.ui \
     ui/screensaver.ui \
-    include/framechanger.ui \
     ui/framechanger.ui
 
 DISTFILES += \
