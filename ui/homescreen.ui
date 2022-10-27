@@ -330,8 +330,8 @@ background-color: rgba(255, 255, 255, 50);
     <widget class="QWidget" name="mainFrameUpperLeftWidget" native="true">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>10</y>
+       <x>11</x>
+       <y>5</y>
        <width>170</width>
        <height>170</height>
       </rect>

@@ -38,5 +38,8 @@
         <file>Bitmaps/home_screen/ClockPanel/ic_clock_minute.png</file>
         <file>Bitmaps/screensavers/0571-bg_1_home.png</file>
         <file>Bitmaps/home_screen/btn_done_normal.png</file>
+        <file>Bitmaps/home_screen/ic_range_fuel.png</file>
+        <file>Bitmaps/home_screen/ic_fuel_small.png</file>
+        <file>Bitmaps/home_screen/art_vehicle_info_fuel.png</file>
     </qresource>
 </RCC>

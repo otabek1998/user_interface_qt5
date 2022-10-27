@@ -40,13 +40,15 @@ void HomeScreen::Initialize()
                               "background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_small.png);"
                               "background-repeat: no-repeat}";
 
-    clockAsMainFrame(timer);
+    //clockAsMainFrame(timer);
+    vehicleDataAsMainFrame();
     clockAsSideFrame(timer, 1);
     showTimeOnStatusBar();
     showTimeOnMainFrame();
     displayDayOfWeek();
     displayDate(0);
     displayDate(1);
+    vehicleDataAsSideFrame(0);
 
     this->setObjectName("MainMenu");
     ui->mainFrame->setObjectName("MainFrame");
@@ -130,6 +132,60 @@ void HomeScreen::clockAsSideFrame(QTimer *timer, int side)
     Date->setAlignment(Qt::AlignCenter);
     Date->setStyleSheet("color: white;"
                         "font-size: 24px;");
+
+}
+
+void HomeScreen::vehicleDataAsMainFrame()
+{
+    QVBoxLayout *upperLayout = new QVBoxLayout(ui->mainFrameUppeRightWidget);
+    QLabel *average = new QLabel(ui->mainFrameUppeRightWidget);
+    QLabel *averageValue = new QLabel(ui->mainFrameUppeRightWidget);
+
+    upperLayout->addWidget(average, 0, Qt::AlignBottom);
+    upperLayout->addWidget(averageValue, 0, Qt::AlignTop);
+
+    averageValue->setAlignment(Qt::AlignCenter);
+    averageValue->setText("**.*km/L");
+    averageValue->setStyleSheet("color: white;"
+                                "font-size: 24px;");
+
+    average->setAlignment(Qt::AlignCenter);
+    average->setText("Average");
+    average->setStyleSheet("color: #03A5FC;"
+                           "font-size: 20px;");
+    ui->mainFrameUpperLeftWidget->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/art_vehicle_info_fuel.png);");
+}
+
+void HomeScreen::vehicleDataAsSideFrame(int side)
+{
+    QVBoxLayout *sideLayout = new QVBoxLayout(ui->left_frame);
+    QWidget *fuelWidget = new QWidget(ui->left_frame);
+    QLabel *fuelUsage = new QLabel(ui->left_frame);
+    QWidget *rangeWidget = new QWidget(ui->left_frame);
+    QLabel *range = new QLabel(ui->left_frame);
+
+    sideLayout->setContentsMargins(0, 10, 15, 0);
+    sideLayout->addWidget(fuelWidget, 0, Qt::AlignCenter);
+    sideLayout->addWidget(fuelUsage, 0, Qt::AlignTop);
+    sideLayout->addWidget(rangeWidget, 0, Qt::AlignCenter);
+    sideLayout->addWidget(range, 0, Qt::AlignTop);
+    fuelUsage->setAlignment(Qt::AlignCenter);
+    range->setAlignment(Qt::AlignCenter);
+
+    fuelUsage->setText("*.**");
+    fuelUsage->setStyleSheet("color: white;"
+                             "font-size: 32px");
+    range->setText("***");
+    range->setStyleSheet("color: white;"
+                         "font-size: 32px");
+
+    fuelWidget->setFixedHeight(100);
+    fuelWidget->setFixedWidth(100);
+    rangeWidget->setFixedSize(54, 38);
+    fuelWidget->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_fuel_small.png);"
+                              "background-repeat: no-repeat;");
+    rangeWidget->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_range_fuel.png);"
+                               "background-repeat: no-repeat;");
 
 }
 
