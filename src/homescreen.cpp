@@ -41,7 +41,8 @@ void HomeScreen::Initialize()
                               "background-repeat: no-repeat}";
 
     //clockAsMainFrame(timer);
-    vehicleDataAsMainFrame();
+    //vehicleDataAsMainFrame();
+    playerAsMainFrame();
     clockAsSideFrame(timer, 1);
     showTimeOnStatusBar();
     showTimeOnMainFrame();
@@ -138,11 +139,26 @@ void HomeScreen::clockAsSideFrame(QTimer *timer, int side)
 void HomeScreen::vehicleDataAsMainFrame()
 {
     QVBoxLayout *upperLayout = new QVBoxLayout(ui->mainFrameUppeRightWidget);
+    QVBoxLayout *lowerLayout = new QVBoxLayout(ui->mainFrameLowerWidget);
     QLabel *average = new QLabel(ui->mainFrameUppeRightWidget);
     QLabel *averageValue = new QLabel(ui->mainFrameUppeRightWidget);
+    QWidget *rangeWidget = new QWidget(ui->mainFrameLowerWidget);
+    QLabel *rangeValue = new QLabel(ui->mainFrameLowerWidget);
 
     upperLayout->addWidget(average, 0, Qt::AlignBottom);
     upperLayout->addWidget(averageValue, 0, Qt::AlignTop);
+
+    lowerLayout->addWidget(rangeWidget, 0, Qt::AlignCenter);
+    lowerLayout->addWidget(rangeValue, 0, Qt::AlignTop);
+
+    rangeWidget->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_range_fuel.png);"
+                               "background-repeat: no-repeat;");
+    rangeWidget->setFixedSize(54, 38);
+
+    rangeValue->setAlignment(Qt::AlignCenter);
+    rangeValue->setText("***km");
+    rangeValue->setStyleSheet("color: white;"
+                                "font-size: 24px;");
 
     averageValue->setAlignment(Qt::AlignCenter);
     averageValue->setText("**.*km/L");
@@ -172,7 +188,7 @@ void HomeScreen::vehicleDataAsSideFrame(int side)
     fuelUsage->setAlignment(Qt::AlignCenter);
     range->setAlignment(Qt::AlignCenter);
 
-    fuelUsage->setText("*.**");
+    fuelUsage->setText("**.*");
     fuelUsage->setStyleSheet("color: white;"
                              "font-size: 32px");
     range->setText("***");
@@ -187,6 +203,29 @@ void HomeScreen::vehicleDataAsSideFrame(int side)
     rangeWidget->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_range_fuel.png);"
                                "background-repeat: no-repeat;");
 
+}
+
+void HomeScreen::playerAsMainFrame()
+{
+    QVBoxLayout *sideLayout = new QVBoxLayout(ui->mainFrameUppeRightWidget);
+    QLabel *songName = new QLabel(ui->mainFrameUppeRightWidget);
+    QLabel *artistName = new QLabel(ui->mainFrameUppeRightWidget);
+    QLabel *musicTime = new QLabel(ui->mainFrameUppeRightWidget);
+    QWidget *
+
+    sideLayout->addWidget(songName, 0, Qt::AlignTop);
+    sideLayout->addWidget(artistName, 0, Qt::AlignTop);
+    sideLayout->addWidget(musicTime, 0, Qt::AlignTop);
+    songName->setText("Crazy World");
+    artistName->setText("Scorpions");
+    songName->setStyleSheet("color: white;"
+                            "font-size: 32px");
+    artistName->setStyleSheet("color: white;"
+                              "font-size: 24px");
+    musicTime->setText("--/--");
+    musicTime->setStyleSheet("color: white");
+
+    ui->mainFrameUpperLeftWidget->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/art_album_default.png);");
 }
 
 void HomeScreen::showTimeOnStatusBar()
