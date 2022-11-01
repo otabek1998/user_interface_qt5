@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,7 +17,8 @@ SOURCES += src/main.cpp\
     src/touchinput.cpp \
     src/screensaver.cpp \
     src/customframe.cpp \
-    src/framechanger.cpp
+    src/framechanger.cpp \
+    src/musicplayer.cpp
 
 INVITE_LIBS += libinput
 CONFIG += link_pkgconfig
@@ -28,7 +29,8 @@ HEADERS  += include/homescreen.h \
     include/touchinput.h \
     include/screensaver.h \
     include/customframe.h \
-    include/framechanger.h
+    include/framechanger.h \
+    include/musicplayer.h
 
 FORMS    += \
     ui/homescreen.ui \

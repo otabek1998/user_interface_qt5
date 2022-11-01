@@ -7,6 +7,7 @@
 #include "include/analogclock.h"
 #include "include/touchinput.h"
 #include "include/customframe.h"
+#include "include/musicplayer.h"
 #include "ui_homescreen.h"
 
 HomeScreen::HomeScreen(QWidget *parent) :
@@ -26,6 +27,8 @@ HomeScreen::~HomeScreen()
 
 void HomeScreen::Initialize()
 {
+    MusicPlayer player(this);
+    player.openFile();
     QTimer *timer = new QTimer(this);
     screenSaver = new ScreenSaver();
     fc = new FrameChanger();
@@ -211,7 +214,7 @@ void HomeScreen::playerAsMainFrame()
     QLabel *songName = new QLabel(ui->mainFrameUppeRightWidget);
     QLabel *artistName = new QLabel(ui->mainFrameUppeRightWidget);
     QLabel *musicTime = new QLabel(ui->mainFrameUppeRightWidget);
-    QWidget *
+    //QWidget *songProgress new QWidget(ui->mainFrameUppeRightWidget);
 
     sideLayout->addWidget(songName, 0, Qt::AlignTop);
     sideLayout->addWidget(artistName, 0, Qt::AlignTop);
