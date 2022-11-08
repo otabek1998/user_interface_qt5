@@ -21,7 +21,8 @@ void MusicPlayer::openFile()
         //player.setMedia(QUrl(it.next()));
         qDebug() << it.next();
         playlist.addMedia(QUrl::fromLocalFile(it.next()));
+        player.setMedia(QUrl::fromLocalFile(it.next()));
     }
-    player.setPlaylist(&playlist);
+    //player.setPlaylist(&playlist);
     player.play();
 }
