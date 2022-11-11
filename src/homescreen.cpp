@@ -28,7 +28,6 @@ HomeScreen::~HomeScreen()
 void HomeScreen::Initialize()
 {
     MusicPlayer player(this);
-    player.openFile();
     QTimer *timer = new QTimer(this);
     screenSaver = new ScreenSaver();
     fc = new FrameChanger();
@@ -80,6 +79,7 @@ void HomeScreen::Initialize()
     connect(frame, &CustomFrame::pressedSignal, this, &HomeScreen::onFrameHoldGesture); // need to change
     connect(fc, &FrameChanger::emitCancelButtonPress, this, &HomeScreen::onFrameChangerCancelPress);
     timer->start(1000);
+    player.openFile();
 }
 
 void HomeScreen::clockAsMainFrame(QTimer *timer)
