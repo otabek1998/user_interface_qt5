@@ -18,9 +18,10 @@ SOURCES += src/main.cpp\
     src/screensaver.cpp \
     src/customframe.cpp \
     src/framechanger.cpp \
-    src/musicplayer.cpp
+    src/musicplayer.cpp \
+    src/gstops.cpp
 
-INVITE_LIBS += libinput
+INVITE_LIBS += libinput libstreamer-1.0
 CONFIG += link_pkgconfig
 PKGCONFIG += $$INVITE_LIBS
 
@@ -30,7 +31,8 @@ HEADERS  += include/homescreen.h \
     include/screensaver.h \
     include/customframe.h \
     include/framechanger.h \
-    include/musicplayer.h
+    include/musicplayer.h \
+    include/gstops.h
 
 FORMS    += \
     ui/homescreen.ui \
