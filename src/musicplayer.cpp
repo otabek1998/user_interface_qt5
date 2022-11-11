@@ -17,13 +17,13 @@ void MusicPlayer::openFile()
     QMediaPlayer player;
     QMediaPlaylist playlist;
     GstOps *gstClass;
-    char* location;
+    std::string location;
     QDirIterator it(*directoryOfUSB,QStringList() << "*.mp3",QDir::Files,QDirIterator::Subdirectories);
     while(it.hasNext())
     {
         //player.setMedia(QUrl(it.next()));
         qDebug() << it.next();
-        location = QUrl::fromLocalFile(it.next());
+        location = it.next().toUtf8().constData();
         //playlist.addMedia(QUrl::fromLocalFile(it.next()));
         //player.setMedia(QUrl::fromLocalFile(it.next()));
     }

@@ -8,17 +8,21 @@ GstOps::GstOps()
     msg = NULL;
 }
 
-GstOps::pause_music()
+void GstOps::pause_music()
 {
 
 }
 
-GstOps::play_music(char* location)
+void GstOps::play_music(std::string location)
 {
-    char* uri = "playbin uri=file://" + location;
+    int ret;
+    std::string uri = "playbin uri=file://";
+    uri += location;
     uri += " audio-sink=\"alsasink device=hw:1,1\"";
 
-    pipeline = gst_parse_launch(uri, NULL);
+    const char* convert_to_gchar = uri.c_str();
+
+    pipeline = gst_parse_launch(convert_to_gchar, NULL);
 
     ret = gst_element_set_state(pipeline, GST_STATE_PLAYING);
     bus = gst_element_get_bus(pipeline);

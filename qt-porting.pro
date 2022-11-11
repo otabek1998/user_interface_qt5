@@ -21,7 +21,7 @@ SOURCES += src/main.cpp\
     src/musicplayer.cpp \
     src/gstops.cpp
 
-INVITE_LIBS += libinput libstreamer-1.0
+INVITE_LIBS += libinput gstreamer-1.0
 CONFIG += link_pkgconfig
 PKGCONFIG += $$INVITE_LIBS
 

@@ -2,16 +2,18 @@
 #define GSTOPS_H
 
 #include <gst/gst.h>
+#include <string>
 
 class GstOps
 {
 public:
-    play_music(char*);
-    pause_music();
+    GstOps();
+    void play_music(std::string);
+    void pause_music();
 private:
     GstElement *pipeline;
     GstBus *bus;
     GstMessage *msg;
-}
+};
 
 #endif // GSTOPS_H
