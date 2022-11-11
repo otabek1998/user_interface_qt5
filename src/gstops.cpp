@@ -1,5 +1,6 @@
 #include "include/gstops.h"
 #include <string>
+#include <iostream>
 #include <gst/gst.h>
 
 GstOps::GstOps()
@@ -19,6 +20,8 @@ void GstOps::play_music(std::string location)
     std::string uri = "playbin uri=file://";
     uri += location;
     uri += " audio-sink=\"alsasink device=hw:1,1\"";
+
+    std::cout << uri <<std::endl; // for debugging
 
     const char* convert_to_gchar = uri.c_str();
 
