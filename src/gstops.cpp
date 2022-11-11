@@ -18,18 +18,17 @@ void GstOps::pause_music()
 void GstOps::play_music(std::string location)
 {
     int ret;
+    GError* err = NULL;
     std::string uri = "playbin uri=file://";
     uri += location;
-    //uri += " audio-sink=\"alsasink device=hw:1,1\"";
+    uri += " audio-sink=\"alsasink device=hw:0,0\"";
 
-    std::cout << uri <<std::endl; // for debugging
-
-    const gchar* convert_to_gchar = uri.c_str();
-
-    std::cout << convert_to_gchar <<std::endl; // for debugging
+    const char* convert_to_gchar = uri.c_str();
  
-    pipeline = gst_parse_launch("playbin uri=file:///run/media/sda1/videoplayback.mp3", NULL);
-    
+    //pipeline = gst_parse_launch("playbin uri=file:///media/otabek/B63D-28CC/videoplayback.mp3", &err);
+    pipeline = gst_parse_launch(convert_to_gchar, &err);
+    //pipeline = gst_element_factory_make("playbin", "playbin");
+
     std::cout << "Pipeline is created" << std::endl;
 
     ret = gst_element_set_state(pipeline, GST_STATE_PLAYING);
