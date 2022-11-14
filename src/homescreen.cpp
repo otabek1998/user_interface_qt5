@@ -27,13 +27,15 @@ HomeScreen::~HomeScreen()
 
 void HomeScreen::Initialize()
 {
-    MusicPlayer player(this);
     QTimer *timer = new QTimer(this);
     screenSaver = new ScreenSaver();
     fc = new FrameChanger();
     ti = new TouchInput();
     ti_thread = new QThread();
+    player = new MusicPlayer;
+    music_thread = new QThread();
     ti->moveToThread(ti_thread);
+    player->moveToThread(music_thread);
 
     QString widgetStyle = "QWidget#MainMenu {"
                           "background-image: url(:/home_screen/background/Bitmaps/home_screen/0569-bg_1_home.png);"
@@ -73,13 +75,13 @@ void HomeScreen::Initialize()
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnStatusBar()));
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnMainFrame()));
     connect(ti_thread, &QThread::started, ti, &TouchInput::Process);
+    connect(music_thread, &QThread::started, player,&MusicPlayer::openFile);
     connect(ti, &TouchInput::emitPowerButtonSignal, this, &HomeScreen::onPowerButtonPress);
 
 
     connect(frame, &CustomFrame::pressedSignal, this, &HomeScreen::onFrameHoldGesture); // need to change
     connect(fc, &FrameChanger::emitCancelButtonPress, this, &HomeScreen::onFrameChangerCancelPress);
     timer->start(1000);
-    player.openFile();
 }
 
 void HomeScreen::clockAsMainFrame(QTimer *timer)

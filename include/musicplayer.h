@@ -1,18 +1,19 @@
 #ifndef MUSICPLAYER_H
 #define MUSICPLAYER_H
 
-#include <QWidget>
-#include <QMediaPlayer>
+#include "include/gstops.h"
+#include <QObject>
 #include <QString>
 
-class MusicPlayer : public QWidget
+class MusicPlayer : public QObject
 {
     Q_OBJECT
 public:
-    MusicPlayer(QWidget *parent = nullptr);
+    MusicPlayer();
 
 private:
     QString *directoryOfUSB;
+    GstOps *gstops;
 
 public slots:
     void openFile();

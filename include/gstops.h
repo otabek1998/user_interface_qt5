@@ -3,9 +3,11 @@
 
 #include <gst/gst.h>
 #include <string>
+#include <QObject>
 
-class GstOps
+class GstOps : public QObject
 {
+    Q_OBJECT
 public:
     GstOps();
     void play_music(std::string);

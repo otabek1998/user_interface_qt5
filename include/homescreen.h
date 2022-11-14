@@ -8,6 +8,7 @@
 #include "include/screensaver.h"
 #include "include/touchinput.h"
 #include "include/framechanger.h"
+#include "include/musicplayer.h"
 
 namespace Ui {
 class HomeScreen;
@@ -23,9 +24,11 @@ public:
     void displayClockAsMainFrame();
     QString digitImageStringify(int);
     ScreenSaver *screenSaver;
+    MusicPlayer *player;
     TouchInput *ti;
     FrameChanger *fc;
     QThread *ti_thread;
+    QThread *music_thread;
 private:
     bool visible;
     Ui::HomeScreen *ui;

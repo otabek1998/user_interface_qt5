@@ -1,22 +1,20 @@
 #include "include/musicplayer.h"
-#include "include/gstops.h"
+
 #include <QUrl>
-#include <QMediaContent>
 #include <QDir>
 #include <QDirIterator>
 #include <QStringList>
-#include <QMediaPlaylist>
 
-MusicPlayer::MusicPlayer(QWidget *parent) : QWidget(parent)
+MusicPlayer::MusicPlayer()
 {
-    this->directoryOfUSB = new QString("/run");
+    this->directoryOfUSB = new QString("/media");
 }
 
 void MusicPlayer::openFile()
 {
     //QMediaPlayer player;
     //QMediaPlaylist playlist;
-    GstOps *gstClass;
+    gstops = new GstOps();
     std::string location;
     gst_init(NULL, NULL);
     QDirIterator it(*directoryOfUSB,QStringList() << "*.mp3",QDir::Files,QDirIterator::Subdirectories);
@@ -31,5 +29,5 @@ void MusicPlayer::openFile()
     }
     //player.setPlaylist(&playlist);
     //player.play();
-    gstClass->play_music(location);
+    gstops->play_music(location);
 }
