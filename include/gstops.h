@@ -12,6 +12,7 @@ public:
     GstOps();
     void play_music(std::string);
     void pause_music();
+    void resume_music();
 private:
     GstElement *pipeline;
     GstBus *bus;

@@ -46,6 +46,7 @@ void HomeScreen::Initialize()
 
     //clockAsMainFrame(timer);
     //vehicleDataAsMainFrame();
+    player->createPlaylist();
     playerAsMainFrame();
     clockAsSideFrame(timer, 1);
     showTimeOnStatusBar();
@@ -54,6 +55,7 @@ void HomeScreen::Initialize()
     displayDate(0);
     displayDate(1);
     vehicleDataAsSideFrame(0);
+
 
     this->setObjectName("MainMenu");
     ui->mainFrame->setObjectName("MainFrame");
@@ -75,9 +77,7 @@ void HomeScreen::Initialize()
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnStatusBar()));
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnMainFrame()));
     connect(ti_thread, &QThread::started, ti, &TouchInput::Process);
-    connect(music_thread, &QThread::started, player,&MusicPlayer::openFile);
     connect(ti, &TouchInput::emitPowerButtonSignal, this, &HomeScreen::onPowerButtonPress);
-
 
     connect(frame, &CustomFrame::pressedSignal, this, &HomeScreen::onFrameHoldGesture); // need to change
     connect(fc, &FrameChanger::emitCancelButtonPress, this, &HomeScreen::onFrameChangerCancelPress);
@@ -121,7 +121,8 @@ void HomeScreen::clockAsSideFrame(QTimer *timer, int side)
     sideLayout->setContentsMargins(15, 10, 0, 0);
     sideLayout->addWidget(analogTime, 0, Qt::AlignCenter);
     analogTime->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/ClockPanel/ic_clock_base.png);"
-                              "background-repeat: no-repeat;");
+                              "background-repeat: no-repeat;"
+                              "background-position: center;");
     analogTime->setFixedWidth(132);
     analogTime->setFixedHeight(132);
     //analogTime->setSizePolicy();
@@ -213,10 +214,22 @@ void HomeScreen::vehicleDataAsSideFrame(int side)
 void HomeScreen::playerAsMainFrame()
 {
     QVBoxLayout *sideLayout = new QVBoxLayout(ui->mainFrameUppeRightWidget);
+    QHBoxLayout *downLayout = new QHBoxLayout(ui->mainFrameLowerWidget);
+    play = new QPushButton(ui->mainFrameLowerWidget);
+    next = new QPushButton(ui->mainFrameLowerWidget);
+    previous = new QPushButton(ui->mainFrameLowerWidget);
     QLabel *songName = new QLabel(ui->mainFrameUppeRightWidget);
     QLabel *artistName = new QLabel(ui->mainFrameUppeRightWidget);
     QLabel *musicTime = new QLabel(ui->mainFrameUppeRightWidget);
     //QWidget *songProgress new QWidget(ui->mainFrameUppeRightWidget);
+
+    downLayout->addWidget(previous, 0, Qt::AlignCenter);
+    downLayout->addWidget(play, 0, Qt::AlignCenter);
+    downLayout->addWidget(next, 0, Qt::AlignCenter);
+
+    play->setFixedSize(100,100);
+    previous->setFixedSize(80,80);
+    next->setFixedSize(80,80);
 
     sideLayout->addWidget(songName, 0, Qt::AlignTop);
     sideLayout->addWidget(artistName, 0, Qt::AlignTop);
@@ -231,6 +244,29 @@ void HomeScreen::playerAsMainFrame()
     musicTime->setStyleSheet("color: white");
 
     ui->mainFrameUpperLeftWidget->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/art_album_default.png);");
+    play->setStyleSheet("QPushButton {"
+                         "background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_play.png);"
+                         "background-repeat: no-repeat;"
+                         "background-color: transparent;"
+                         "background-position: center;}");
+
+    //pause->setStyleSheet("border-radius: 5px");
+    previous->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_autoSeek_down.png);"
+                            "background-repeat: no-repeat;"
+                            "background-color: transparent;"
+                            "background-position: center;");
+    next->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_autoSeek_up.png);"
+                        "background-repeat: no-repeat;"
+                        "background-color: transparent;"
+                        "background-position: center;");
+    play->setFlat(true);
+    next->setFlat(true);
+    previous->setFlat(true);
+    play->setFocusPolicy(Qt::NoFocus);
+    next->setFocusPolicy(Qt::NoFocus);
+    previous->setFocusPolicy(Qt::NoFocus);
+    connect(play, &QPushButton::pressed, player, &MusicPlayer::playMusic);
+
 }
 
 void HomeScreen::showTimeOnStatusBar()

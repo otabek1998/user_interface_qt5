@@ -49,6 +49,9 @@ private:
     QLabel *digitTime;
     QLabel *dayOfWeek;
     QLabel *Date;
+    QPushButton *play;
+    QPushButton *previous;
+    QPushButton *next;
 private slots:
     void showTimeOnStatusBar();
     void showTimeOnMainFrame();

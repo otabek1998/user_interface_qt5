@@ -42,5 +42,9 @@
         <file>Bitmaps/home_screen/ic_fuel_small.png</file>
         <file>Bitmaps/home_screen/art_vehicle_info_fuel.png</file>
         <file>Bitmaps/home_screen/art_album_default.png</file>
+        <file>Bitmaps/home_screen/ic_pause.png</file>
+        <file>Bitmaps/home_screen/ic_autoSeek_up.png</file>
+        <file>Bitmaps/home_screen/ic_autoSeek_down.png</file>
+        <file>Bitmaps/home_screen/ic_play.png</file>
     </qresource>
 </RCC>
