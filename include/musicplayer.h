@@ -12,19 +12,21 @@ class MusicPlayer : public QObject
 public:
     MusicPlayer();
     bool isPlaying;
+    bool isInitialized;
     int now_playing_music_index;
     int len_of_playlist;
     std::vector<std::string> *playlist;
-    void playMusic();
     void pauseMusic();
-    void resumeMusic();
+
     void nextMusic();
     void prevMusic();
+    GstOps *gstops;
 private:
     QString *directoryOfUSB;
-    GstOps *gstops;
+
 public slots:
     void createPlaylist();
+    void resumeMusic();
 };
 
 #endif // MUSICPLAYER_H

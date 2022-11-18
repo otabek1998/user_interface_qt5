@@ -8,8 +8,9 @@
 
 MusicPlayer::MusicPlayer()
 {
-    this->directoryOfUSB = new QString("/run");
+    this->directoryOfUSB = new QString("/media");
     isPlaying = false;
+    isInitialized = false;
 }
 
 void MusicPlayer::createPlaylist()
@@ -36,37 +37,30 @@ void MusicPlayer::createPlaylist()
     }
 }
 
-void MusicPlayer::playMusic()
-{
-    if (isPlaying == false){
-        isPlaying = true;
-        gstops->play_music(playlist->at(now_playing_music_index));
-    }
-    else {
-        isPlaying == true;
-        pauseMusic();
-    }
-}
 
 void MusicPlayer::pauseMusic()
 {
-    if (isPlaying == true){
-        isPlaying = false;
-        gstops->pause_music();
-    }
-    else {
-        qDebug("Error! music is already paused");
-    }
-
+    isPlaying = false;
+    gstops->pause_music();
 }
 
 void MusicPlayer::resumeMusic()
 {
-    if (isPlaying == false) {
+    std::cout << "Resume music is called" << std::endl;
+    if (isInitialized == false){
+        std::cout << "1" << std::endl;
+        gstops->play_uri(playlist->at(now_playing_music_index));
+        isPlaying = true;
+        isInitialized = true;
+    }
+    else if (isPlaying == false){
+        std::cout << "2" << std::endl;
         isPlaying = true;
         gstops->resume_music();
     }
     else {
-        qDebug("Error music is already playing");
+        std::cout << "3" << std::endl;
+        gstops->pause_music();
+        isPlaying = false;
     }
 }
