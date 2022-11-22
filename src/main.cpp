@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     HomeScreen w;
     w.showFullScreen();
     w.ti_thread->start();
-    //w.music_thread->start();
+    w.music_thread->start();
     a.exec();
 
     return 0;

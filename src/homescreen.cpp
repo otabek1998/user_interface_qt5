@@ -33,9 +33,9 @@ void HomeScreen::Initialize()
     ti = new TouchInput();
     ti_thread = new QThread();
     player = new MusicPlayer;
-    //music_thread = new QThread();
+    music_thread = new QThread();
     ti->moveToThread(ti_thread);
-    //player->moveToThread(music_thread);
+    player->moveToThread(music_thread);
 
     QString widgetStyle = "QWidget#MainMenu {"
                           "background-image: url(:/home_screen/background/Bitmaps/home_screen/0569-bg_1_home.png);"

@@ -8,7 +8,7 @@
 
 MusicPlayer::MusicPlayer()
 {
-    this->directoryOfUSB = new QString("/media");
+    this->directoryOfUSB = new QString("/run");
     isPlaying = false;
     isInitialized = false;
 }
@@ -19,7 +19,7 @@ void MusicPlayer::createPlaylist()
     std::string location;
     playlist = new std::vector<std::string>;
 
-    gst_init(NULL, NULL);
+    //gst_init(NULL, NULL);
     QDirIterator it(*directoryOfUSB,QStringList() << "*.mp3",QDir::Files,QDirIterator::Subdirectories);
 
     while(it.hasNext())
@@ -41,7 +41,7 @@ void MusicPlayer::createPlaylist()
 void MusicPlayer::pauseMusic()
 {
     isPlaying = false;
-    gstops->pause_music();
+    //gstops->pause_music();
 }
 
 void MusicPlayer::resumeMusic()
@@ -50,17 +50,18 @@ void MusicPlayer::resumeMusic()
     if (isInitialized == false){
         std::cout << "1" << std::endl;
         gstops->play_uri(playlist->at(now_playing_music_index));
+        //gstops->resume_music();
         isPlaying = true;
         isInitialized = true;
     }
     else if (isPlaying == false){
         std::cout << "2" << std::endl;
         isPlaying = true;
-        gstops->resume_music();
+        //gstops->resume_music();
     }
     else {
         std::cout << "3" << std::endl;
-        gstops->pause_music();
+        //gstops->pause_music();
         isPlaying = false;
     }
 }
