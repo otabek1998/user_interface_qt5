@@ -79,3 +79,13 @@ void MusicPlayer::resumeMusic()
         gstops->data->isPlaying = true;
     }
 }
+
+void MusicPlayer::volumeUp()
+{
+    gstops->data->curr_volume += 0.5;
+}
+
+void MusicPlayer::volumeDown()
+{
+    gstops->data->curr_volume -= 0.5;
+}

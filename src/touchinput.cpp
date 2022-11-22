@@ -104,6 +104,14 @@ void TouchInput::processTouchDownEvent(libinput_event *ev)
     if (search->first == 1500){
         emitPowerButtonSignal();
     }
+
+    if (search->first == 2000){
+        emitVolumeUpSignal();
+    }
+
+    if(search->first == 2200){
+        emitVolumeDownSignal();
+    }
 }
 
 void TouchInput::processTouchUpEvent(libinput_event *ev)

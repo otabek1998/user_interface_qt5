@@ -121,6 +121,7 @@ int GstOps::play_uri(std::string location)
 
     //g_timeout_add (200, (GSourceFunc) cb_print_position, data->pipeline);
     g_timeout_add(100, (GSourceFunc) pause_resume_pipeline, data);
+    g_timeout_add(100, (GSourceFunc) volume_change, data);
 
 
     g_main_loop_run(loop);
@@ -234,8 +235,8 @@ gboolean GstOps::bus_call (GstBus *bus, GstMessage *msg, gpointer data)
       //if (GST_MESSAGE_SRC (msg) == GST_OBJECT (data->pipeline)) {
           GstState old_state, new_state, pending_state;
           gst_message_parse_state_changed (msg, &old_state, &new_state, &pending_state);
-          g_print ("Pipeline state changed from %s to %s:\n",
-          gst_element_state_get_name (old_state), gst_element_state_get_name (new_state));
+          //g_print ("Pipeline state changed from %s to %s:\n",
+          //gst_element_state_get_name (old_state), gst_element_state_get_name (new_state));
         //}
        break;
     }
@@ -313,4 +314,9 @@ gboolean GstOps::pause_resume_pipeline(CustomData *cust)
     }
 
     return TRUE;
+}
+
+gboolean GstOps::volume_change(CustomData *cust)
+{
+    g_object_set(cust->volume, "volume", cust->curr_volume, NULL);
 }

@@ -27,6 +27,8 @@ private:
 public slots:
     void createPlaylist();
     void resumeMusic();
+    void volumeUp();
+    void volumeDown();
 };
 
 #endif // MUSICPLAYER_H

@@ -15,6 +15,8 @@ public:
     void runinThread();
 signals:
     void emitPowerButtonSignal();
+    void emitVolumeUpSignal();
+    void emitVolumeDownSignal();
 private:
     void processTouchUpEvent(libinput_event* ev);
     void processTouchDownEvent(libinput_event* ev);
