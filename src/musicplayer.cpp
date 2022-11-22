@@ -44,7 +44,7 @@ void MusicPlayer::pauseMusic()
     //gstops->pause_music();
 }
 
-void MusicPlayer::resumeMusic()
+/*void MusicPlayer::resumeMusic()
 {
     std::cout << "Resume music is called" << std::endl;
     if (isInitialized == false){
@@ -63,5 +63,19 @@ void MusicPlayer::resumeMusic()
         std::cout << "3" << std::endl;
         //gstops->pause_music();
         isPlaying = false;
+    }
+}*/
+
+void MusicPlayer::resumeMusic()
+{
+    if (isInitialized == false){
+        isInitialized = true;
+        gstops->play_uri(playlist->at(now_playing_music_index));
+    }
+    else if (gstops->data->isPlaying == true){
+        gstops->data->isPlaying = false;
+    }
+    else if (gstops->data->isPlaying == false) {
+        gstops->data->isPlaying = true;
     }
 }

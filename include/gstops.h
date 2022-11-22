@@ -23,6 +23,7 @@ public:
     int play_uri(std::string);
     void pause_music();
     void resume_music();
+    CustomData *data;
 private:
     guint bus_watch_id;
     GMainLoop *loop;
@@ -33,7 +34,7 @@ private:
     //GstElement *volume;
     //GstElement *source;
 
-    CustomData *data;
+
 
     static void onPadAdded(GstElement*, GstPad*, CustomData*);
 

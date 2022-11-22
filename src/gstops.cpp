@@ -59,7 +59,7 @@ int GstOps::play_uri(std::string location)
     /* Set the location to play */
     g_object_set(data->source, "location", convert_to_gchar, NULL);
     g_object_set(data->sink, "device", "hw:1", NULL);
-    g_object_set(data->volume, "volume", 0.3, NULL);
+    g_object_set(data->volume, "volume", 0.4, NULL);
 
     /* Connect to the pad-added signal */
     g_signal_connect (data->decodebin, "pad-added", G_CALLBACK (onPadAdded), data);
@@ -119,8 +119,8 @@ int GstOps::play_uri(std::string location)
     gst_element_set_state(GST_ELEMENT (data->pipeline), GST_STATE_PLAYING);
     data->isPlaying = true;
 
-    g_timeout_add (200, (GSourceFunc) cb_print_position, data->pipeline);
-    g_timeout_add(5000, (GSourceFunc) pause_resume_pipeline, data);
+    //g_timeout_add (200, (GSourceFunc) cb_print_position, data->pipeline);
+    g_timeout_add(100, (GSourceFunc) pause_resume_pipeline, data);
 
 
     g_main_loop_run(loop);
@@ -306,12 +306,10 @@ void GstOps::resume_music()
 gboolean GstOps::pause_resume_pipeline(CustomData *cust)
 {
     if (cust->isPlaying) {
-        cust->isPlaying = false;
-        gst_element_set_state(GST_ELEMENT(cust->pipeline), GST_STATE_PAUSED);
+        gst_element_set_state(GST_ELEMENT(cust->pipeline), GST_STATE_PLAYING);
     }
     else {
-        cust->isPlaying = true;
-        gst_element_set_state(GST_ELEMENT(cust->pipeline), GST_STATE_PLAYING);
+        gst_element_set_state(GST_ELEMENT(cust->pipeline), GST_STATE_PAUSED);
     }
 
     return TRUE;
