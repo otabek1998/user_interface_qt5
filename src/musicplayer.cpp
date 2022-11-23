@@ -5,10 +5,11 @@
 #include <QDirIterator>
 #include <QStringList>
 #include <iostream>
+#include <unistd.h>
 
 MusicPlayer::MusicPlayer()
 {
-    this->directoryOfUSB = new QString("/run");
+    this->directoryOfUSB = new QString("/media");
     isPlaying = false;
     isInitialized = false;
 }
@@ -70,22 +71,47 @@ void MusicPlayer::resumeMusic()
 {
     if (isInitialized == false){
         isInitialized = true;
+        isPlaying = true;
         gstops->play_uri(playlist->at(now_playing_music_index));
     }
-    else if (gstops->data->isPlaying == true){
-        gstops->data->isPlaying = false;
+    else if (isPlaying == true){
+        gstops->pause_music();
+        isPlaying = false;
+        //gstops->data->isPlaying = false;
     }
-    else if (gstops->data->isPlaying == false) {
-        gstops->data->isPlaying = true;
+    else if (isPlaying == false) {
+        gstops->resume_music();
+        isPlaying = true;
+        //gstops->data->isPlaying = true;
     }
 }
 
 void MusicPlayer::volumeUp()
 {
-    gstops->data->curr_volume += 0.5;
+    gstops->volume_up();
 }
 
 void MusicPlayer::volumeDown()
 {
-    gstops->data->curr_volume -= 0.5;
+    gstops->volume_down();
 }
+
+/*void MusicPlayer::volumeUp()
+{
+    if (gstops->data->curr_volume < 1){
+        gstops->data->curr_volume += (float) 0.05;
+        if (gstops->data->curr_volume > 1){
+            gstops->data->curr_volume = (float) 1;
+        }
+    }
+}
+
+void MusicPlayer::volumeDown()
+{
+    if (gstops->data->curr_volume > 0){
+        gstops->data->curr_volume -= (float) 0.05;
+        if (gstops->data->curr_volume < 0){
+            gstops->data->curr_volume = (float) 0;
+        }
+    }
+}*/

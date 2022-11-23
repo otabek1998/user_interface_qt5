@@ -5,14 +5,13 @@
 
 GstOps::GstOps()
 {
-
+    data = new CustomData;
 }
 
 int GstOps::play_uri(std::string location)
 {
     loop = g_main_loop_new(NULL, FALSE);
     const char* convert_to_gchar = location.c_str();
-    data = new CustomData;
     //GstBus *bus;
     //GstMessage *msg;
     GstStateChangeReturn ret;
@@ -27,6 +26,7 @@ int GstOps::play_uri(std::string location)
     data->convert = gst_element_factory_make ("audioconvert", "convert");
     data->volume = gst_element_factory_make ("volume", "volume");
     data->sink = gst_element_factory_make ("alsasink", "sink");
+    data->curr_volume = 0.4;
 
     /* Create the empty pipeline */
     data->pipeline = gst_pipeline_new ("test-pipeline");
@@ -58,8 +58,8 @@ int GstOps::play_uri(std::string location)
 
     /* Set the location to play */
     g_object_set(data->source, "location", convert_to_gchar, NULL);
-    g_object_set(data->sink, "device", "hw:1", NULL);
-    g_object_set(data->volume, "volume", 0.4, NULL);
+    g_object_set(data->sink, "device", "hw:0", NULL);
+    g_object_set(data->volume, "volume", data->curr_volume, NULL);
 
     /* Connect to the pad-added signal */
     g_signal_connect (data->decodebin, "pad-added", G_CALLBACK (onPadAdded), data);
@@ -120,8 +120,8 @@ int GstOps::play_uri(std::string location)
     data->isPlaying = true;
 
     //g_timeout_add (200, (GSourceFunc) cb_print_position, data->pipeline);
-    g_timeout_add(100, (GSourceFunc) pause_resume_pipeline, data);
-    g_timeout_add(100, (GSourceFunc) volume_change, data);
+    //g_timeout_add(100, (GSourceFunc) pause_resume_pipeline, data);
+    //g_timeout_add(100, (GSourceFunc) volume_change, data);
 
 
     g_main_loop_run(loop);
@@ -292,7 +292,7 @@ gboolean GstOps::cb_print_position(GstElement *pipeline)
     return TRUE;
 }
 
-/*void GstOps::pause_music()
+void GstOps::pause_music()
 {
     gst_element_set_state(GST_ELEMENT(data->pipeline), GST_STATE_PAUSED);
     std::cout << "Gstreamer pause" << std::endl;
@@ -302,7 +302,7 @@ void GstOps::resume_music()
 {
     gst_element_set_state(GST_ELEMENT(data->pipeline), GST_STATE_PLAYING);
     std::cout << "Gstreamer resume" << std::endl;
-}*/
+}
 
 gboolean GstOps::pause_resume_pipeline(CustomData *cust)
 {
@@ -319,4 +319,22 @@ gboolean GstOps::pause_resume_pipeline(CustomData *cust)
 gboolean GstOps::volume_change(CustomData *cust)
 {
     g_object_set(cust->volume, "volume", cust->curr_volume, NULL);
+}
+
+void GstOps::volume_up()
+{
+    data->curr_volume += 0.05;
+    if (data->curr_volume > 1){
+        data->curr_volume = 1;
+    }
+    g_object_set(data->volume, "volume", data->curr_volume, NULL);
+}
+
+void GstOps::volume_down()
+{
+    data->curr_volume -= 0.05;
+    if (data->curr_volume < 0){
+        data->curr_volume = 0;
+    }
+    g_object_set(data->volume, "volume", data->curr_volume, NULL);
 }

@@ -29,10 +29,10 @@ void HomeScreen::Initialize()
 {
     QTimer *timer = new QTimer(this);
     screenSaver = new ScreenSaver();
+    player = new MusicPlayer;
     fc = new FrameChanger();
     ti = new TouchInput();
     ti_thread = new QThread();
-    player = new MusicPlayer;
     //music_thread = new QThread();
     ti->moveToThread(ti_thread);
     //player->moveToThread(music_thread);
