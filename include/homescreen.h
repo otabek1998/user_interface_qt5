@@ -49,12 +49,16 @@ private:
     QLabel *digitTime;
     QLabel *dayOfWeek;
     QLabel *Date;
+    QLabel *songName;
+    QLabel *artistName;
     QPushButton *play;
     QPushButton *previous;
     QPushButton *next;
 private slots:
     void showTimeOnStatusBar();
     void showTimeOnMainFrame();
+    void setArtistOnMainFrame();
+    void setSongNameOnMainFrame();
 };
 
 #endif // HOMESCREEN_H

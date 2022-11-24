@@ -2,6 +2,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <qpainter.h>
+#include <unistd.h>
 #include <iostream>
 #include "include/homescreen.h"
 #include "include/analogclock.h"
@@ -218,9 +219,9 @@ void HomeScreen::playerAsMainFrame()
     play = new QPushButton(ui->mainFrameLowerWidget);
     next = new QPushButton(ui->mainFrameLowerWidget);
     previous = new QPushButton(ui->mainFrameLowerWidget);
-    QLabel *songName = new QLabel(ui->mainFrameUppeRightWidget);
-    QLabel *artistName = new QLabel(ui->mainFrameUppeRightWidget);
-    QLabel *musicTime = new QLabel(ui->mainFrameUppeRightWidget);
+    songName = new QLabel(ui->mainFrameUppeRightWidget);
+    artistName = new QLabel(ui->mainFrameUppeRightWidget);
+    QLabel *musicTime = new QLabel(ui->mainFrameUppeRightWidget); //this should be made class member later
     //QWidget *songProgress new QWidget(ui->mainFrameUppeRightWidget);
 
     downLayout->addWidget(previous, 0, Qt::AlignCenter);
@@ -267,7 +268,8 @@ void HomeScreen::playerAsMainFrame()
     previous->setFocusPolicy(Qt::NoFocus);
     connect(play, SIGNAL(clicked()), player, SLOT(resumeMusic()));
     connect(next, SIGNAL(clicked()), player, SLOT(nextMusic()));
-    connect(previous, SIGNAL(clicked()), player, SLOT(prevMusic()));
+    connect(player->gstops->data, SIGNAL(onArtistChange()), this, SLOT(setArtistOnMainFrame()));
+    connect(player->gstops->data, SIGNAL(onSongNameChange()), this, SLOT(setSongNameOnMainFrame()));
     connect(ti, &TouchInput::emitVolumeUpSignal, player, &MusicPlayer::volumeUp);
     connect(ti, &TouchInput::emitVolumeDownSignal, player, &MusicPlayer::volumeDown);
 }
@@ -442,4 +444,18 @@ void HomeScreen::onFrameChangerCancelPress()
     qDebug("Clicked also");
     fc->hide();
     showFullScreen();
+}
+
+void HomeScreen::setArtistOnMainFrame()
+{
+    QString str;
+    str = QString::fromStdString(player->getArtist());
+    artistName->setText(str);
+}
+
+void HomeScreen::setSongNameOnMainFrame()
+{
+    QString str;
+    str = QString::fromStdString(player->getSongName());
+    songName->setText(str);
 }

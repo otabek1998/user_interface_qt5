@@ -1,23 +1,7 @@
 #ifndef GSTOPS_H
 #define GSTOPS_H
 
-#include <gst/gst.h>
-#include <string>
-#include <QObject>
-
-typedef struct _CustomData {
-  GstElement *pipeline;
-  GstElement *source;
-  GstElement *decodebin;
-  GstElement *convert;
-  GstElement *volume;
-  GstElement *sink;
-  bool isPlaying;
-  float curr_volume;
-  std::string song_name;
-  std::string artist;
-} CustomData;
-
+#include "include/customdata.h"
 
 class GstOps : public QObject
 {
@@ -30,18 +14,18 @@ public:
     void volume_up();
     void volume_down();
     void changeMusic(std::string);
+    void setArtist(std::string);
+    void setSongName(std::string);
     CustomData *data;
 private:
     guint bus_watch_id;
-    GMainLoop *loop;
+
     //GstElement *pipeline;
     //GstElement *sink;
     //GstElement *decodebin;
     //GstElement *audioconvert;
     //GstElement *volume;
     //GstElement *source;
-
-
 
     static void onPadAdded(GstElement*, GstPad*, CustomData*);
 

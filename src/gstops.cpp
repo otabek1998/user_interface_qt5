@@ -10,12 +10,11 @@ GstOps::GstOps()
 
 int GstOps::play_uri(std::string location)
 {
-    loop = g_main_loop_new(NULL, FALSE);
+    data->loop = g_main_loop_new(NULL, FALSE);
     const char* convert_to_gchar = location.c_str();
     //GstBus *bus;
     //GstMessage *msg;
     GstStateChangeReturn ret;
-    gboolean terminate = FALSE;
 
     /* Initialize GStreamer */
     gst_init (NULL, NULL);
@@ -58,7 +57,7 @@ int GstOps::play_uri(std::string location)
 
     /* Set the location to play */
     g_object_set(data->source, "location", convert_to_gchar, NULL);
-    g_object_set(data->sink, "device", "hw:0", NULL);
+    g_object_set(data->sink, "device", "hw:1", NULL);
     g_object_set(data->volume, "volume", data->curr_volume, NULL);
 
     /* Connect to the pad-added signal */
@@ -72,49 +71,9 @@ int GstOps::play_uri(std::string location)
         return -1;
     }
 
-//    bus = gst_element_get_bus (data->pipeline);
-//      do {
-//        msg = gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_NONE, GstMessageType(GST_MESSAGE_STATE_CHANGED | GST_MESSAGE_ERROR | GST_MESSAGE_EOS));
-
-//        /* Parse message */
-//        if (msg != NULL) {
-//          GError *err;
-//          gchar *debug_info;
-
-//          switch (GST_MESSAGE_TYPE (msg)) {
-//            case GST_MESSAGE_ERROR:
-//              gst_message_parse_error (msg, &err, &debug_info);
-//              g_printerr ("Error received from element %s: %s\n", GST_OBJECT_NAME (msg->src), err->message);
-//              g_printerr ("Debugging information: %s\n", debug_info ? debug_info : "none");
-//              g_clear_error (&err);
-//              g_free (debug_info);
-//              terminate = TRUE;
-//              break;
-//            case GST_MESSAGE_EOS:
-//              g_print ("End-Of-Stream reached.\n");
-//              terminate = TRUE;
-//              break;
-//            case GST_MESSAGE_STATE_CHANGED:
-//              /* We are only interested in state-changed messages from the pipeline */
-//              if (GST_MESSAGE_SRC (msg) == GST_OBJECT (data->pipeline)) {
-//                GstState old_state, new_state, pending_state;
-//                gst_message_parse_state_changed (msg, &old_state, &new_state, &pending_state);
-//                g_print ("Pipeline state changed from %s to %s:\n",
-//                    gst_element_state_get_name (old_state), gst_element_state_get_name (new_state));
-//              }
-//              break;
-//            default:
-//              /* We should not reach here */
-//              g_printerr ("Unexpected message received.\n");
-//              break;
-//          }
-//          gst_message_unref (msg);
-//        }
-//      } while (!terminate);
-
 
     bus = gst_pipeline_get_bus(GST_PIPELINE(data->pipeline));
-    bus_watch_id = gst_bus_add_watch (bus, bus_call, loop);
+    bus_watch_id = gst_bus_add_watch (bus, bus_call, data);
     gst_object_unref(bus);
     gst_element_set_state(GST_ELEMENT (data->pipeline), GST_STATE_PLAYING);
     data->isPlaying = true;
@@ -124,92 +83,16 @@ int GstOps::play_uri(std::string location)
     //g_timeout_add(100, (GSourceFunc) volume_change, data);
 
 
-    g_main_loop_run(loop);
+    g_main_loop_run(data->loop);
 
 }
 
-/*void GstOps::play_uri(std::string location)
-{
-    gst_init(NULL, NULL);
-
-    loop = g_main_loop_new(NULL, FALSE);
-    const char* convert_to_gchar = location.c_str();
-    pipeline = gst_pipeline_new("pipeline");
-    source = gst_element_factory_make("filesrc", "source");
-    decodebin = gst_element_factory_make("decodebin", "decodebin");
-    audioconvert = gst_element_factory_make("audioconvert", "audioconvert");
-    volume = gst_element_factory_make("volume", "volume");
-    sink = gst_element_factory_make("alsasink", "sink");
-
-    if(!pipeline || !source || !decodebin || !audioconvert || !volume || !sink){
-        g_printerr ("Not all elements could be created.\n");
-    }
-
-
-    g_object_set(G_OBJECT (source), "location", convert_to_gchar, NULL);
-    //g_object_set(G_OBJECT (volume), "volume", 0,1, NULL);
-    //g_object_set(G_OBJECT (sink), "device", "hw:0", NULL);
-
-    g_signal_connect (decodebin, "pad-added", G_CALLBACK (onPadAdded), &audioconvert);
-
-    gst_bin_add_many(GST_BIN (pipeline), source, decodebin, audioconvert, volume, sink, NULL);
-
-    gst_element_link(source, decodebin);
-    gst_element_link(audioconvert, volume);
-    gst_element_link(volume, sink);
-    gst_element_link_pads(decodebin, "decodebin", audioconvert, "audioconvert"); //continue work here
-
-
-    bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline));
-    bus_watch_id = gst_bus_add_watch (bus, bus_call, loop);
-    gst_object_unref(bus);
-    gst_element_set_state(GST_ELEMENT (pipeline), GST_STATE_PLAYING);
-
-    g_main_loop_run(loop);
-
-    if (msg != NULL){
-         gst_message_unref(msg);
-    }
-    gst_object_unref(bus);
-    gst_element_set_state(pipeline, GST_STATE_NULL);
-    gst_object_unref(pipeline);
-}*/
-
-/*void GstOps::play_uri(std::string location)
-{
-    int ret;
-    loop = g_main_loop_new(NULL, FALSE);
-    std::string uri = "file://" + location;
-
-    std::string uri = "playbin uri=file://";
-    uri += location;
-    uri += " audio-sink=\"alsasink device=hw:0,1\"";
-
-    const char* convert_to_gchar = uri.c_str();
- 
-    std::cout << convert_to_gchar << std::endl;
-    pipeline = gst_parse_launch(convert_to_gchar, NULL);
-
-    std::cout << "Pipeline is created" << std::endl;
-    bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline));
-    bus_watch_id = gst_bus_add_watch (bus, bus_call, loop);
-    gst_object_unref(bus);
-    ret = gst_element_set_state(pipeline, GST_STATE_PLAYING);
-
-    g_main_loop_run(loop);
-
-    // free memory
-    if (msg != NULL){
-         gst_message_unref(msg);
-    }
-    gst_object_unref(bus);
-    gst_element_set_state(pipeline, GST_STATE_NULL);
-    gst_object_unref(pipeline);
-}*/
 
 gboolean GstOps::bus_call (GstBus *bus, GstMessage *msg, gpointer data)
 {
-    GMainLoop *loop = (GMainLoop *) data;
+    CustomData *cust = (CustomData *) data;
+    //GMainLoop *loop = (GMainLoop *) data;
+
     GError *err;
     gchar *debug_info;
     GstTagList *tags = NULL;
@@ -218,7 +101,7 @@ gboolean GstOps::bus_call (GstBus *bus, GstMessage *msg, gpointer data)
 
     case GST_MESSAGE_EOS: {
       g_print ("End of stream\n");
-      g_main_loop_quit (loop);
+      g_main_loop_quit (cust->loop);
       break;
     }
 
@@ -229,7 +112,7 @@ gboolean GstOps::bus_call (GstBus *bus, GstMessage *msg, gpointer data)
       g_clear_error (&err);
       g_free (debug_info);
 
-      g_main_loop_quit (loop);
+      g_main_loop_quit (cust->loop);
       break;
     }
 
@@ -246,7 +129,7 @@ gboolean GstOps::bus_call (GstBus *bus, GstMessage *msg, gpointer data)
 
     case GST_MESSAGE_TAG:{
       gst_message_parse_tag (msg, &tags);
-      gst_tag_list_foreach (tags, print_one_tag, NULL);
+      gst_tag_list_foreach (tags, print_one_tag, cust);
       g_print("\n");
       gst_tag_list_unref(tags);
       break;
@@ -307,27 +190,30 @@ gboolean GstOps::cb_print_position(GstElement *pipeline)
 void GstOps::print_one_tag(const GstTagList * list, const gchar * tag, gpointer user_data)
 {
     int i, num;
-    //CustomData *cust = (CustomData *) user_data;
+    CustomData *cust = (CustomData *) user_data;
 
     num = gst_tag_list_get_tag_size (list, tag);
     for (i = 0; i < num; ++i) {
         const GValue *val;
+        std::string temp;
         std::string title = "title";
         std::string artist = "artist";
         title = title.c_str();
         artist = artist.c_str();
 
-    /* Note: when looking for specific tags, use the gst_tag_list_get_xyz() API,
-     * we only use the GValue approach here because it is more generic */
     val = gst_tag_list_get_value_index (list, tag, i);
     if (G_VALUE_HOLDS_STRING (val)) {
         if (tag == title){
+            temp = g_value_get_string(val);
+            cust->setSongName(temp);
             //cust->song_name = g_value_get_string(val);
             std::cout << "TITLE is found and value is " << g_value_get_string(val) << std::endl;
         }
         if (tag == artist){
+            temp = g_value_get_string(val);
+            cust->setArtist(temp);
             //cust->artist = g_value_get_string(val);
-            std::cout << "ARTIST is found and value is " << g_value_get_string(val) << std::endl;
+            std::cout << "ARTIST is found and value is " << cust->artist << std::endl;
         }
         std::cout << tag << std::endl;
         g_print ("1.\t%20s : %s\n", tag, g_value_get_string (val));

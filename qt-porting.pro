@@ -19,7 +19,8 @@ SOURCES += src/main.cpp\
     src/customframe.cpp \
     src/framechanger.cpp \
     src/musicplayer.cpp \
-    src/gstops.cpp
+    src/gstops.cpp \
+    src/customdata.cpp
 
 INVITE_LIBS += libinput gstreamer-1.0
 CONFIG += link_pkgconfig
@@ -32,7 +33,8 @@ HEADERS  += include/homescreen.h \
     include/customframe.h \
     include/framechanger.h \
     include/musicplayer.h \
-    include/gstops.h
+    include/gstops.h \
+    include/customdata.h
 
 FORMS    += \
     ui/homescreen.ui \

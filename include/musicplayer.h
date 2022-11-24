@@ -17,6 +17,8 @@ public:
     int len_of_playlist;
     std::vector<std::string> *playlist;
     void pauseMusic();
+    std::string getArtist();
+    std::string getSongName();
 
     GstOps *gstops;
 private:

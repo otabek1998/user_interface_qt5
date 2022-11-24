@@ -9,7 +9,7 @@
 
 MusicPlayer::MusicPlayer()
 {
-    this->directoryOfUSB = new QString("/media");
+    this->directoryOfUSB = new QString("/run");
     isPlaying = false;
     isInitialized = false;
 }
@@ -38,34 +38,11 @@ void MusicPlayer::createPlaylist()
     }
 }
 
-
 void MusicPlayer::pauseMusic()
 {
     isPlaying = false;
     //gstops->pause_music();
 }
-
-/*void MusicPlayer::resumeMusic()
-{
-    std::cout << "Resume music is called" << std::endl;
-    if (isInitialized == false){
-        std::cout << "1" << std::endl;
-        gstops->play_uri(playlist->at(now_playing_music_index));
-        //gstops->resume_music();
-        isPlaying = true;
-        isInitialized = true;
-    }
-    else if (isPlaying == false){
-        std::cout << "2" << std::endl;
-        isPlaying = true;
-        //gstops->resume_music();
-    }
-    else {
-        std::cout << "3" << std::endl;
-        //gstops->pause_music();
-        isPlaying = false;
-    }
-}*/
 
 void MusicPlayer::resumeMusic()
 {
@@ -112,4 +89,14 @@ void MusicPlayer::prevMusic()
         now_playing_music_index = len_of_playlist;
     }
     gstops->changeMusic(playlist->at(now_playing_music_index));
+}
+
+std::string MusicPlayer::getSongName()
+{
+    return gstops->data->song_name;
+}
+
+std::string MusicPlayer::getArtist()
+{
+    return gstops->data->artist;
 }
