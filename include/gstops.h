@@ -14,7 +14,10 @@ typedef struct _CustomData {
   GstElement *sink;
   bool isPlaying;
   float curr_volume;
+  std::string song_name;
+  std::string artist;
 } CustomData;
+
 
 class GstOps : public QObject
 {
@@ -26,6 +29,7 @@ public:
     void resume_music();
     void volume_up();
     void volume_down();
+    void changeMusic(std::string);
     CustomData *data;
 private:
     guint bus_watch_id;
@@ -45,6 +49,7 @@ private:
     GstMessage *msg;
     static gboolean bus_call (GstBus *bus, GstMessage *msg, gpointer data);
     static gboolean cb_print_position (GstElement* pipeline);
+    static void print_one_tag(const GstTagList * list, const gchar * tag, gpointer user_data);
     static gboolean pause_resume_pipeline (CustomData* cust);
     static gboolean volume_change (CustomData* cust);
 };

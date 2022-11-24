@@ -266,9 +266,10 @@ void HomeScreen::playerAsMainFrame()
     next->setFocusPolicy(Qt::NoFocus);
     previous->setFocusPolicy(Qt::NoFocus);
     connect(play, SIGNAL(clicked()), player, SLOT(resumeMusic()));
+    connect(next, SIGNAL(clicked()), player, SLOT(nextMusic()));
+    connect(previous, SIGNAL(clicked()), player, SLOT(prevMusic()));
     connect(ti, &TouchInput::emitVolumeUpSignal, player, &MusicPlayer::volumeUp);
     connect(ti, &TouchInput::emitVolumeDownSignal, player, &MusicPlayer::volumeDown);
-
 }
 
 void HomeScreen::showTimeOnStatusBar()

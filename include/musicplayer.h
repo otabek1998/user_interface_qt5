@@ -18,8 +18,6 @@ public:
     std::vector<std::string> *playlist;
     void pauseMusic();
 
-    void nextMusic();
-    void prevMusic();
     GstOps *gstops;
 private:
     QString *directoryOfUSB;
@@ -29,6 +27,8 @@ public slots:
     void resumeMusic();
     void volumeUp();
     void volumeDown();
+    void nextMusic();
+    void prevMusic();
 };
 
 #endif // MUSICPLAYER_H

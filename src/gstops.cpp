@@ -209,18 +209,20 @@ int GstOps::play_uri(std::string location)
 
 gboolean GstOps::bus_call (GstBus *bus, GstMessage *msg, gpointer data)
 {
-  GMainLoop *loop = (GMainLoop *) data;
-  GError *err;
-  gchar *debug_info;
+    GMainLoop *loop = (GMainLoop *) data;
+    GError *err;
+    gchar *debug_info;
+    GstTagList *tags = NULL;
 
-  switch (GST_MESSAGE_TYPE (msg)) {
+    switch (GST_MESSAGE_TYPE (msg)) {
 
-    case GST_MESSAGE_EOS:
+    case GST_MESSAGE_EOS: {
       g_print ("End of stream\n");
       g_main_loop_quit (loop);
       break;
+    }
 
-    case GST_MESSAGE_ERROR: {
+    case GST_MESSAGE_ERROR:{
       gst_message_parse_error (msg, &err, &debug_info);
       g_printerr ("Error received from element %s: %s\n", GST_OBJECT_NAME (msg->src), err->message);
       g_printerr ("Debugging information: %s\n", debug_info ? debug_info : "none");
@@ -229,8 +231,9 @@ gboolean GstOps::bus_call (GstBus *bus, GstMessage *msg, gpointer data)
 
       g_main_loop_quit (loop);
       break;
+    }
 
-    case GST_MESSAGE_STATE_CHANGED:
+    case GST_MESSAGE_STATE_CHANGED: {
       /* We are only interested in state-changed messages from the pipeline */
       //if (GST_MESSAGE_SRC (msg) == GST_OBJECT (data->pipeline)) {
           GstState old_state, new_state, pending_state;
@@ -240,11 +243,20 @@ gboolean GstOps::bus_call (GstBus *bus, GstMessage *msg, gpointer data)
         //}
        break;
     }
+
+    case GST_MESSAGE_TAG:{
+      gst_message_parse_tag (msg, &tags);
+      gst_tag_list_foreach (tags, print_one_tag, NULL);
+      g_print("\n");
+      gst_tag_list_unref(tags);
+      break;
+    }
+
     default:
       break;
-  }
+    }
 
-  return TRUE;
+    return TRUE;
 }
 
 void GstOps::onPadAdded(GstElement *src, GstPad *new_pad, CustomData *data)
@@ -292,6 +304,51 @@ gboolean GstOps::cb_print_position(GstElement *pipeline)
     return TRUE;
 }
 
+void GstOps::print_one_tag(const GstTagList * list, const gchar * tag, gpointer user_data)
+{
+    int i, num;
+    //CustomData *cust = (CustomData *) user_data;
+
+    num = gst_tag_list_get_tag_size (list, tag);
+    for (i = 0; i < num; ++i) {
+        const GValue *val;
+        std::string title = "title";
+        std::string artist = "artist";
+        title = title.c_str();
+        artist = artist.c_str();
+
+    /* Note: when looking for specific tags, use the gst_tag_list_get_xyz() API,
+     * we only use the GValue approach here because it is more generic */
+    val = gst_tag_list_get_value_index (list, tag, i);
+    if (G_VALUE_HOLDS_STRING (val)) {
+        if (tag == title){
+            //cust->song_name = g_value_get_string(val);
+            std::cout << "TITLE is found and value is " << g_value_get_string(val) << std::endl;
+        }
+        if (tag == artist){
+            //cust->artist = g_value_get_string(val);
+            std::cout << "ARTIST is found and value is " << g_value_get_string(val) << std::endl;
+        }
+        std::cout << tag << std::endl;
+        g_print ("1.\t%20s : %s\n", tag, g_value_get_string (val));
+    }
+    else if (GST_VALUE_HOLDS_BUFFER (val)) {
+      GstBuffer *buf = gst_value_get_buffer (val);
+      guint buffer_size = gst_buffer_get_size (buf);
+
+      g_print ("\t%20s : buffer of size %u\n", tag, buffer_size);
+    } /*else if (GST_VALUE_HOLDS_DATE_TIME (val)) {
+      GstDateTime *dt = g_value_get_boxed (val);
+      gchar *dt_str = gst_date_time_to_iso8601_string (dt);
+
+      g_print ("\t%20s : %s\n", tag, dt_str);
+      g_free (dt_str);
+    }*/ else {
+      g_print ("\t%20s : tag of type '%s'\n", tag, G_VALUE_TYPE_NAME (val));
+    }
+  }
+}
+
 void GstOps::pause_music()
 {
     gst_element_set_state(GST_ELEMENT(data->pipeline), GST_STATE_PAUSED);
@@ -337,4 +394,12 @@ void GstOps::volume_down()
         data->curr_volume = 0;
     }
     g_object_set(data->volume, "volume", data->curr_volume, NULL);
+}
+
+void GstOps::changeMusic(std::string location)
+{
+    const char* conv = location.c_str();
+    gst_element_set_state(GST_ELEMENT(data->pipeline), GST_STATE_NULL);
+    g_object_set(data->source, "location", conv, NULL);
+    gst_element_set_state(GST_ELEMENT(data->pipeline), GST_STATE_PLAYING);
 }

@@ -96,22 +96,20 @@ void MusicPlayer::volumeDown()
     gstops->volume_down();
 }
 
-/*void MusicPlayer::volumeUp()
+void MusicPlayer::nextMusic()
 {
-    if (gstops->data->curr_volume < 1){
-        gstops->data->curr_volume += (float) 0.05;
-        if (gstops->data->curr_volume > 1){
-            gstops->data->curr_volume = (float) 1;
-        }
+    now_playing_music_index += 1;
+    if (now_playing_music_index > len_of_playlist) {
+        now_playing_music_index = 0;
     }
+    gstops->changeMusic(playlist->at(now_playing_music_index));
 }
 
-void MusicPlayer::volumeDown()
+void MusicPlayer::prevMusic()
 {
-    if (gstops->data->curr_volume > 0){
-        gstops->data->curr_volume -= (float) 0.05;
-        if (gstops->data->curr_volume < 0){
-            gstops->data->curr_volume = (float) 0;
-        }
+    now_playing_music_index -= 1;
+    if (now_playing_music_index < 0) {
+        now_playing_music_index = len_of_playlist;
     }
-}*/
+    gstops->changeMusic(playlist->at(now_playing_music_index));
+}
