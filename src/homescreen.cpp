@@ -4,6 +4,7 @@
 #include <qpainter.h>
 #include <unistd.h>
 #include <iostream>
+#include <QBitmap>
 #include "include/homescreen.h"
 #include "include/analogclock.h"
 #include "include/touchinput.h"
@@ -235,8 +236,8 @@ void HomeScreen::playerAsMainFrame()
     sideLayout->addWidget(songName, 0, Qt::AlignTop);
     sideLayout->addWidget(artistName, 0, Qt::AlignTop);
     sideLayout->addWidget(musicTime, 0, Qt::AlignTop);
-    songName->setText("Crazy World");
-    artistName->setText("Scorpions");
+    songName->setText("Unknown");
+    artistName->setText("Unknown");
     songName->setStyleSheet("color: white;"
                             "font-size: 32px");
     artistName->setStyleSheet("color: white;"
@@ -268,8 +269,10 @@ void HomeScreen::playerAsMainFrame()
     previous->setFocusPolicy(Qt::NoFocus);
     connect(play, SIGNAL(clicked()), player, SLOT(resumeMusic()));
     connect(next, SIGNAL(clicked()), player, SLOT(nextMusic()));
+    connect(previous, SIGNAL(clicked()), player, SLOT(prevMusic()));
     connect(player->gstops->data, SIGNAL(onArtistChange()), this, SLOT(setArtistOnMainFrame()));
     connect(player->gstops->data, SIGNAL(onSongNameChange()), this, SLOT(setSongNameOnMainFrame()));
+    connect(player->gstops->data, SIGNAL(onAlbumArtChange()),this, SLOT(setAlbumArtOnMainFrame()));
     connect(ti, &TouchInput::emitVolumeUpSignal, player, &MusicPlayer::volumeUp);
     connect(ti, &TouchInput::emitVolumeDownSignal, player, &MusicPlayer::volumeDown);
 }
@@ -458,4 +461,19 @@ void HomeScreen::setSongNameOnMainFrame()
     QString str;
     str = QString::fromStdString(player->getSongName());
     songName->setText(str);
+}
+
+void HomeScreen::setAlbumArtOnMainFrame()
+{
+    QPixmap img;
+    QBitmap map(170,170);
+
+    img.loadFromData(reinterpret_cast<const uchar*>(player->getAlbumCover()), player->getAlbumCoverSize());
+    img = img.scaled(170,170,Qt::KeepAspectRatio);
+    //QPainter painter (&map);
+    //painter.setBrush(Qt::color1);
+    //painter.drawRoundRect(0,0,170,170,20,20);
+    //img.setMask(map);
+    ui->label->setPixmap(img);
+    //ui->label->setStyleSheet("QLabel{border-radius:25px}");
 }

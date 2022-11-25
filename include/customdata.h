@@ -21,9 +21,13 @@ public:
   GMainLoop *loop;
   void setArtist(std::string);
   void setSongName(std::string);
+  void setAlbumArt(GstMapInfo);
+  uint8_t *album_art;
+  size_t album_art_size;
 signals:
    void onArtistChange();
    void onSongNameChange();
+   void onAlbumArtChange();
 };
 
 #endif // CUSTOMDATA_H

@@ -19,6 +19,8 @@ public:
     void pauseMusic();
     std::string getArtist();
     std::string getSongName();
+    uint8_t* getAlbumCover();
+    size_t getAlbumCoverSize();
 
     GstOps *gstops;
 private:

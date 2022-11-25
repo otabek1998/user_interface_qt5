@@ -196,20 +196,16 @@ void GstOps::print_one_tag(const GstTagList * list, const gchar * tag, gpointer 
     for (i = 0; i < num; ++i) {
         const GValue *val;
         std::string temp;
-        std::string title = "title";
-        std::string artist = "artist";
-        title = title.c_str();
-        artist = artist.c_str();
 
     val = gst_tag_list_get_value_index (list, tag, i);
     if (G_VALUE_HOLDS_STRING (val)) {
-        if (tag == title){
+        if (strncmp(tag, GST_TAG_TITLE, 5) == 0){
             temp = g_value_get_string(val);
             cust->setSongName(temp);
             //cust->song_name = g_value_get_string(val);
             std::cout << "TITLE is found and value is " << g_value_get_string(val) << std::endl;
         }
-        if (tag == artist){
+        if (strncmp(tag, GST_TAG_ARTIST, 6) == 0){
             temp = g_value_get_string(val);
             cust->setArtist(temp);
             //cust->artist = g_value_get_string(val);
@@ -217,6 +213,23 @@ void GstOps::print_one_tag(const GstTagList * list, const gchar * tag, gpointer 
         }
         std::cout << tag << std::endl;
         g_print ("1.\t%20s : %s\n", tag, g_value_get_string (val));
+    }
+    else if (GST_VALUE_HOLDS_SAMPLE(val)) {
+        if (strncmp(tag, GST_TAG_IMAGE, 5) == 0){
+            GstSample *sample = NULL;
+            if (gst_tag_list_get_sample_index(list, tag, i, &sample))
+            {
+                GstBuffer *img = gst_sample_get_buffer(sample);
+                if (img) {
+                    GstMapInfo mapInfo;
+                    (void)gst_buffer_map(img, &mapInfo, GST_MAP_READ);
+                    std::cout << "Parsing Album Cover length is " << mapInfo.size << std::endl;
+                    //memcpy(album_art, mapInfo.data, mapInfo.size); // transfered to setter function to implement signal
+                    cust->setAlbumArt(mapInfo);
+                    gst_buffer_unmap(img, &mapInfo);
+                }
+            }
+        }
     }
     else if (GST_VALUE_HOLDS_BUFFER (val)) {
       GstBuffer *buf = gst_value_get_buffer (val);

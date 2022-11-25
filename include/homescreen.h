@@ -59,6 +59,7 @@ private slots:
     void showTimeOnMainFrame();
     void setArtistOnMainFrame();
     void setSongNameOnMainFrame();
+    void setAlbumArtOnMainFrame();
 };
 
 #endif // HOMESCREEN_H

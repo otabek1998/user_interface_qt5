@@ -100,3 +100,13 @@ std::string MusicPlayer::getArtist()
 {
     return gstops->data->artist;
 }
+
+uint8_t* MusicPlayer::getAlbumCover()
+{
+    return gstops->data->album_art;
+}
+
+size_t MusicPlayer::getAlbumCoverSize()
+{
+    return gstops->data->album_art_size;
+}
