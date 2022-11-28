@@ -60,7 +60,6 @@ void FrameChanger::paintEvent(QPaintEvent *)
 
 void FrameChanger::cancelButtonPress()
 {
-    qDebug("Clicked");
     emit emitCancelButtonPress();
 }
 

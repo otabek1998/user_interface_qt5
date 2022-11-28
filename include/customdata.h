@@ -28,6 +28,7 @@ signals:
    void onArtistChange();
    void onSongNameChange();
    void onAlbumArtChange();
+   void onStreamEnded();
 };
 
 #endif // CUSTOMDATA_H

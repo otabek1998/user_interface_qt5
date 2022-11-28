@@ -101,7 +101,8 @@ gboolean GstOps::bus_call (GstBus *bus, GstMessage *msg, gpointer data)
 
     case GST_MESSAGE_EOS: {
       g_print ("End of stream\n");
-      g_main_loop_quit (cust->loop);
+      emit cust->onStreamEnded();
+      //g_main_loop_quit (cust->loop);
       break;
     }
 

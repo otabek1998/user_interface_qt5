@@ -17,6 +17,7 @@ MusicPlayer::MusicPlayer()
 void MusicPlayer::createPlaylist()
 {
     gstops = new GstOps();
+    connect(gstops->data, SIGNAL(onStreamEnded()), this, SLOT(nextMusic()));
     std::string location;
     playlist = new std::vector<std::string>;
 

@@ -46,11 +46,12 @@ void HomeScreen::Initialize()
                               "background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_small.png);"
                               "background-repeat: no-repeat}";
 
-    //clockAsMainFrame(timer);
+    clockAsMainFrame(timer);
     //vehicleDataAsMainFrame();
     player->createPlaylist();
-    playerAsMainFrame();
-    clockAsSideFrame(timer, 1);
+    //playerAsMainFrame();
+    playerAsSideFrame(1);
+    //clockAsSideFrame(timer, 1);
     showTimeOnStatusBar();
     showTimeOnMainFrame();
     displayDayOfWeek();
@@ -80,7 +81,8 @@ void HomeScreen::Initialize()
     connect(timer, SIGNAL(timeout()), this, SLOT(showTimeOnMainFrame()));
     connect(ti_thread, &QThread::started, ti, &TouchInput::Process);
     connect(ti, &TouchInput::emitPowerButtonSignal, this, &HomeScreen::onPowerButtonPress);
-
+    connect(ti, &TouchInput::emitVolumeUpSignal, player, &MusicPlayer::volumeUp);
+    connect(ti, &TouchInput::emitVolumeDownSignal, player, &MusicPlayer::volumeDown);
     connect(frame, &CustomFrame::pressedSignal, this, &HomeScreen::onFrameHoldGesture); // need to change
     connect(fc, &FrameChanger::emitCancelButtonPress, this, &HomeScreen::onFrameChangerCancelPress);
     timer->start(1000);
@@ -273,8 +275,38 @@ void HomeScreen::playerAsMainFrame()
     connect(player->gstops->data, SIGNAL(onArtistChange()), this, SLOT(setArtistOnMainFrame()));
     connect(player->gstops->data, SIGNAL(onSongNameChange()), this, SLOT(setSongNameOnMainFrame()));
     connect(player->gstops->data, SIGNAL(onAlbumArtChange()),this, SLOT(setAlbumArtOnMainFrame()));
-    connect(ti, &TouchInput::emitVolumeUpSignal, player, &MusicPlayer::volumeUp);
-    connect(ti, &TouchInput::emitVolumeDownSignal, player, &MusicPlayer::volumeDown);
+
+}
+
+void HomeScreen::playerAsSideFrame(int side)
+{
+    QVBoxLayout *sideLayout = new QVBoxLayout(ui->right_frame);
+    playOnSideFrame = new QPushButton();
+    songNameOnSideFrame = new QLabel();
+    sourceWidgetOnSideFrame = new QWidget();
+
+    sideLayout->addWidget(sourceWidgetOnSideFrame, 0, Qt::AlignCenter);
+    sideLayout->addWidget(songNameOnSideFrame, 0, Qt::AlignCenter);
+    sideLayout->addWidget(playOnSideFrame, 0, Qt::AlignCenter);
+
+    sourceWidgetOnSideFrame->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_source_usb_large.png);");
+    sourceWidgetOnSideFrame->setFixedSize(84,84);
+
+    songNameOnSideFrame->setText("Unknown");
+    songNameOnSideFrame->setStyleSheet("color: white;"
+                                       "font-size: 20px;");
+    songNameOnSideFrame->setMargin(12);
+
+    playOnSideFrame->setFixedSize(100,100);
+    playOnSideFrame->setStyleSheet("QPushButton {"
+                         "background-image: url(:/home_screen/background/Bitmaps/home_screen/ic_play.png);"
+                         "background-repeat: no-repeat;"
+                         "background-color: transparent;"
+                         "background-position: center;}");
+    playOnSideFrame->setFlat(true);
+    playOnSideFrame->setFocusPolicy(Qt::NoFocus);
+    connect(playOnSideFrame, SIGNAL(clicked()), player, SLOT(resumeMusic()));
+    connect(player->gstops->data, SIGNAL(onSongNameChange()), this, SLOT(setSongNameOnSideFrame()));
 }
 
 void HomeScreen::showTimeOnStatusBar()
@@ -461,6 +493,13 @@ void HomeScreen::setSongNameOnMainFrame()
     QString str;
     str = QString::fromStdString(player->getSongName());
     songName->setText(str);
+}
+
+void HomeScreen::setSongNameOnSideFrame()
+{
+    QString str;
+    str = QString::fromStdString(player->getSongName());
+    songNameOnSideFrame->setText(str);
 }
 
 void HomeScreen::setAlbumArtOnMainFrame()

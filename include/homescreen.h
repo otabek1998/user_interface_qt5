@@ -40,7 +40,7 @@ private:
     void vehicleDataAsMainFrame();
     void vehicleDataAsSideFrame(int side);
     void playerAsMainFrame();
-    void playerAsSideFrame();
+    void playerAsSideFrame(int side);
     void onPowerButtonPress();
     void onFrameHoldGesture();
     void onFrameChangerCancelPress();
@@ -54,12 +54,16 @@ private:
     QPushButton *play;
     QPushButton *previous;
     QPushButton *next;
+    QWidget *sourceWidgetOnSideFrame;
+    QLabel *songNameOnSideFrame;
+    QPushButton *playOnSideFrame;
 private slots:
     void showTimeOnStatusBar();
     void showTimeOnMainFrame();
     void setArtistOnMainFrame();
     void setSongNameOnMainFrame();
     void setAlbumArtOnMainFrame();
+    void setSongNameOnSideFrame();
 };
 
 #endif // HOMESCREEN_H

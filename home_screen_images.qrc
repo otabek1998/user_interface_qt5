@@ -46,5 +46,6 @@
         <file>Bitmaps/home_screen/ic_autoSeek_up.png</file>
         <file>Bitmaps/home_screen/ic_autoSeek_down.png</file>
         <file>Bitmaps/home_screen/ic_play.png</file>
+        <file>Bitmaps/home_screen/ic_source_usb_large.png</file>
     </qresource>
 </RCC>
