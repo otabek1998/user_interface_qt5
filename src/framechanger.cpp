@@ -42,7 +42,8 @@ void FrameChanger::Initialize()
     doneButton = this->findChild<QPushButton*>("DoneButton");
     resetButton = this->findChild<QPushButton*>("ResetButton");
 
-    connect(cancelButton, &QPushButton::released, this, &FrameChanger::cancelButtonPress);
+    connect(cancelButton, &QPushButton::clicked, this, &FrameChanger::cancelButtonPress);
+    connect(resetButton, &QPushButton::clicked, this, &FrameChanger::resetButtonPress);
 }
 
 FrameChanger::~FrameChanger()
@@ -62,4 +63,14 @@ void FrameChanger::cancelButtonPress()
 {
     emit emitCancelButtonPress();
 }
+
+void FrameChanger::resetButtonPress()
+{
+    emit emitResetButtonPress();
+}
+
+/*void FrameChanger::setContents(std::string arr[3])
+{
+
+}*/
 

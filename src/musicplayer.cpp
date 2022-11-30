@@ -12,6 +12,7 @@ MusicPlayer::MusicPlayer()
     this->directoryOfUSB = new QString("/run");
     isPlaying = false;
     isInitialized = false;
+    createPlaylist();
 }
 
 void MusicPlayer::createPlaylist()

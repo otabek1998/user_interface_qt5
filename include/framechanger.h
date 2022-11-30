@@ -20,8 +20,11 @@ public:
     QPushButton *cancelButton;
     QPushButton *doneButton;
     void cancelButtonPress();
+    void resetButtonPress();
+    void setContents();
  signals:
     void emitCancelButtonPress();
+    void emitResetButtonPress();
 
 private:
     Ui::FrameChanger *ui;

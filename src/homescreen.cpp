@@ -17,8 +17,14 @@ HomeScreen::HomeScreen(QWidget *parent) :
     ui(new Ui::HomeScreen)
 {
     ui->setupUi(this);
+    setLeftFrameContent("vehicle_data");
+    setRightFrameContent("clock");
+    setMainFrameContent("player");
     this->Initialize();
     visible = true;
+    //frame_contents[0] = "clock";
+    //frame_contents[1] = "vehicle_data";
+    //frame_contents[2] = "player";
 }
 
 HomeScreen::~HomeScreen()
@@ -26,18 +32,50 @@ HomeScreen::~HomeScreen()
     delete ui;
 }
 
+void HomeScreen::setAllFrames()
+{
+    for (int i = 0; i < 2; i++)
+    {
+        if (frame_array[i] == "vehicle_data"){
+            vehicleDataAsSideFrame(i);
+        }
+        else if (frame_array[i] == "player"){
+            playerAsSideFrame(i);
+        }
+        else {
+            clockAsSideFrame(timer, i);
+        }
+    }
+
+    if (frame_array[2] == "vehicle_data") {
+        vehicleDataAsMainFrame();
+    }
+    else if (frame_array[2] == "player") {
+        playerAsMainFrame();
+    }
+    else if (frame_array[2] == "clock") {
+        clockAsMainFrame(timer);
+    }
+}
+
+void HomeScreen::resetAllFrames()
+{
+    playerAsMainFrame();
+    vehicleDataAsSideFrame(0);
+    clockAsSideFrame(timer, 1);
+    fc->hide();
+    show();
+}
 
 void HomeScreen::Initialize()
 {
-    QTimer *timer = new QTimer(this);
+    timer = new QTimer(this);
     screenSaver = new ScreenSaver();
     player = new MusicPlayer;
     fc = new FrameChanger();
     ti = new TouchInput();
     ti_thread = new QThread();
-    //music_thread = new QThread();
     ti->moveToThread(ti_thread);
-    //player->moveToThread(music_thread);
 
     QString widgetStyle = "QWidget#MainMenu {"
                           "background-image: url(:/home_screen/background/Bitmaps/home_screen/0569-bg_1_home.png);"
@@ -46,23 +84,30 @@ void HomeScreen::Initialize()
                               "background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_small.png);"
                               "background-repeat: no-repeat}";
 
-    clockAsMainFrame(timer);
+    /*clockAsMainFrame(timer);
     //vehicleDataAsMainFrame();
-    player->createPlaylist();
     //playerAsMainFrame();
     playerAsSideFrame(1);
     //clockAsSideFrame(timer, 1);
+    vehicleDataAsSideFrame(0);*/
+
+    setAllFrames();
+
     showTimeOnStatusBar();
     showTimeOnMainFrame();
     displayDayOfWeek();
     displayDate(0);
     displayDate(1);
-    vehicleDataAsSideFrame(0);
 
 
+    //player->createPlaylist();
     this->setObjectName("MainMenu");
     ui->mainFrame->setObjectName("MainFrame");
+    ui->left_frame->setObjectName("LeftFrame");
+    ui->right_frame->setObjectName("RightFrame");
     CustomFrame *frame = this->findChild<CustomFrame*>("MainFrame"); // taking object from ui
+    CustomFrame *left_frame = this->findChild<CustomFrame*>("LeftFrame");
+    CustomFrame *right_frame = this->findChild<CustomFrame*>("RightFrame");
     ui->mainFrame->setStyleSheet("CustomFrame#MainFrame {"
                                  "background-image: url(:/home_screen/background/Bitmaps/home_screen/bg_panel_mid.png);"
                                  "background-repeat: no-repeat;}");
@@ -84,7 +129,10 @@ void HomeScreen::Initialize()
     connect(ti, &TouchInput::emitVolumeUpSignal, player, &MusicPlayer::volumeUp);
     connect(ti, &TouchInput::emitVolumeDownSignal, player, &MusicPlayer::volumeDown);
     connect(frame, &CustomFrame::pressedSignal, this, &HomeScreen::onFrameHoldGesture); // need to change
+    connect(left_frame, &CustomFrame::pressedSignal, this, &HomeScreen::onFrameHoldGesture); // need to change
+    connect(right_frame, &CustomFrame::pressedSignal, this, &HomeScreen::onFrameHoldGesture); // need to change
     connect(fc, &FrameChanger::emitCancelButtonPress, this, &HomeScreen::onFrameChangerCancelPress);
+    connect(fc, &FrameChanger::emitResetButtonPress, this, &HomeScreen::resetAllFrames);
     timer->start(1000);
 }
 
@@ -115,14 +163,29 @@ void HomeScreen::clockAsMainFrame(QTimer *timer)
 
 void HomeScreen::clockAsSideFrame(QTimer *timer, int side)
 {
-    QVBoxLayout *sideLayout = new QVBoxLayout(ui->right_frame);
-    HomeScreen::analogTime = new QWidget(ui->right_frame);
-    AnalogClock *analogClock = new AnalogClock(analogTime, timer, 1);
-    HomeScreen::digitTime = new QLabel(ui->right_frame);
-    HomeScreen::dayOfWeek = new QLabel(ui->right_frame);
-    HomeScreen::Date = new QLabel(ui->right_frame);
+    QVBoxLayout *sideLayout;
+    AnalogClock *analogClock;
+    if (side == 1)
+    {
+        sideLayout = new QVBoxLayout(ui->right_frame);
+        HomeScreen::analogTime = new QWidget(ui->right_frame);
+        analogClock = new AnalogClock(analogTime, timer, 1);
+        HomeScreen::digitTime = new QLabel(ui->right_frame);
+        HomeScreen::dayOfWeek = new QLabel(ui->right_frame);
+        HomeScreen::Date = new QLabel(ui->right_frame);
+        sideLayout->setContentsMargins(15, 10, 0, 0);
+    }
+    else
+    {
+        sideLayout = new QVBoxLayout(ui->left_frame);
+        HomeScreen::analogTime = new QWidget(ui->left_frame);
+        analogClock = new AnalogClock(analogTime, timer, 1);
+        HomeScreen::digitTime = new QLabel(ui->left_frame);
+        HomeScreen::dayOfWeek = new QLabel(ui->left_frame);
+        HomeScreen::Date = new QLabel(ui->left_frame);
+        sideLayout->setContentsMargins(0, 10, 15, 0);
+    }
 
-    sideLayout->setContentsMargins(15, 10, 0, 0);
     sideLayout->addWidget(analogTime, 0, Qt::AlignCenter);
     analogTime->setStyleSheet("background-image: url(:/home_screen/background/Bitmaps/home_screen/ClockPanel/ic_clock_base.png);"
                               "background-repeat: no-repeat;"
@@ -184,13 +247,29 @@ void HomeScreen::vehicleDataAsMainFrame()
 
 void HomeScreen::vehicleDataAsSideFrame(int side)
 {
-    QVBoxLayout *sideLayout = new QVBoxLayout(ui->left_frame);
-    QWidget *fuelWidget = new QWidget(ui->left_frame);
-    QLabel *fuelUsage = new QLabel(ui->left_frame);
-    QWidget *rangeWidget = new QWidget(ui->left_frame);
-    QLabel *range = new QLabel(ui->left_frame);
+    QVBoxLayout *sideLayout;
+    QWidget *fuelWidget;
+    QLabel *fuelUsage;
+    QWidget *rangeWidget;
+    QLabel *range;
+    if (side == 0)
+    {
+        sideLayout = new QVBoxLayout(ui->left_frame);
+        fuelWidget = new QWidget(ui->left_frame);
+        fuelUsage = new QLabel(ui->left_frame);
+        rangeWidget = new QWidget(ui->left_frame);
+        range = new QLabel(ui->left_frame);
+        sideLayout->setContentsMargins(0, 10, 15, 0);
+    }
+    else {
+        sideLayout = new QVBoxLayout(ui->right_frame);
+        fuelWidget = new QWidget(ui->right_frame);
+        fuelUsage = new QLabel(ui->right_frame);
+        rangeWidget = new QWidget(ui->right_frame);
+        range = new QLabel(ui->right_frame);
+        sideLayout->setContentsMargins(15, 10, 0, 0);
+    }
 
-    sideLayout->setContentsMargins(0, 10, 15, 0);
     sideLayout->addWidget(fuelWidget, 0, Qt::AlignCenter);
     sideLayout->addWidget(fuelUsage, 0, Qt::AlignTop);
     sideLayout->addWidget(rangeWidget, 0, Qt::AlignCenter);
@@ -280,7 +359,13 @@ void HomeScreen::playerAsMainFrame()
 
 void HomeScreen::playerAsSideFrame(int side)
 {
-    QVBoxLayout *sideLayout = new QVBoxLayout(ui->right_frame);
+    QVBoxLayout *sideLayout;
+    if (side == 0){
+        sideLayout = new QVBoxLayout(ui->left_frame);
+    }
+    else {
+        sideLayout = new QVBoxLayout(ui->right_frame);
+    }
     playOnSideFrame = new QPushButton();
     songNameOnSideFrame = new QLabel();
     sourceWidgetOnSideFrame = new QWidget();
@@ -476,7 +561,6 @@ void HomeScreen::onFrameHoldGesture()
 
 void HomeScreen::onFrameChangerCancelPress()
 {
-    qDebug("Clicked also");
     fc->hide();
     showFullScreen();
 }
@@ -515,4 +599,34 @@ void HomeScreen::setAlbumArtOnMainFrame()
     //img.setMask(map);
     ui->label->setPixmap(img);
     //ui->label->setStyleSheet("QLabel{border-radius:25px}");
+}
+
+void HomeScreen::setLeftFrameContent(std::string str)
+{
+    frame_array[0] = str;
+}
+
+void HomeScreen::setRightFrameContent(std::string str)
+{
+    frame_array[1] = str;
+}
+
+void HomeScreen::setMainFrameContent(std::string str)
+{
+    frame_array[2] = str;
+}
+
+std::string HomeScreen::getLeftFrameContent()
+{
+    return frame_array[0];
+}
+
+std::string HomeScreen::getRightFrameContent()
+{
+    return frame_array[1];
+}
+
+std::string HomeScreen::getMainFrameContent()
+{
+    return frame_array[2];
 }

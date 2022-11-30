@@ -5,6 +5,8 @@
 #include <QLabel>
 #include <QStackedWidget>
 #include <QThread>
+#include <string>
+#include <iostream>
 #include "include/screensaver.h"
 #include "include/touchinput.h"
 #include "include/framechanger.h"
@@ -30,11 +32,23 @@ public:
     QThread *ti_thread;
     QThread *music_thread;
 private:
+    std::string getLeftFrameContent();
+    std::string getRightFrameContent();
+    std::string getMainFrameContent();
+
+    void setLeftFrameContent(std::string);
+    void setRightFrameContent(std::string);
+    void setMainFrameContent(std::string);
+
+    std::string frame_array[3];
+    void setAllFrames();
+    void resetAllFrames();
+
     bool visible;
     Ui::HomeScreen *ui;
     void Initialize();
     void displayDayOfWeek();
-    void displayDate(int side); // side 0 is main frame, 1 for right, 2 for left
+    void displayDate(int side); // side 0 is right frame, 1 for right, 2 for left
     void clockAsMainFrame(QTimer *timer);
     void clockAsSideFrame(QTimer *timer, int side); // side 1 for right, 2 for left
     void vehicleDataAsMainFrame();
@@ -45,6 +59,7 @@ private:
     void onFrameHoldGesture();
     void onFrameChangerCancelPress();
 
+    QTimer *timer;
     QWidget *analogTime;
     QLabel *digitTime;
     QLabel *dayOfWeek;
