@@ -23,7 +23,7 @@ inherit qmake5 pkgconfig
 DEPENDS += "qtbase qtdeclarative libinput gstreamer"
 RDEPENDS_${PN} = "audio-manager dlt-daemon dbus libinput gstreamer"
 
-SRC_URI = "git://git@gitlab.com/qt5-porting/hmi;protocol=ssh;branch=main"
+SRC_URI = "git://git@github.com:otabek1998/user_interface_qt5.git;protocol=ssh;branch=main"
 SRCREV = '${AUTOREV}'
 
 S = "${WORKDIR}/git"
