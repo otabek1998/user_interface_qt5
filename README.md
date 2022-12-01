@@ -8,7 +8,8 @@ User interface for Embedded system, by default project is made for screen resolu
 This application applies simple UI for small screens. In this project I used Qt, libinput and Gstreamer frameworks.
 
 ## Installation
-Primarily you should use Yocto project for installation. You should add new recipe with contents
+Primarily you should use Yocto project for installation. You should add new recipe with contents. Then after root filesystem is built you will get binary in /usr/bin directory on your target
+
 ```
 SUMMARY = "Application Qt5 demo using Qt5"
 AUTHOR = "Otabek Nazrullaev"
@@ -28,8 +29,6 @@ SRCREV = '${AUTOREV}'
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
-#FILES_${PN} += "${bindir}/qtporting"
-#FILES_${PN} = "${bindir}"
 
 do_install_append () {
         install -m 0755 -d ${D}${bindir}
